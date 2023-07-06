@@ -1,0 +1,7 @@
+notebooks/
+ClimatExML.egg-info
+ClimatExML/outputs
+__pycache__
+ClimatExML/__pycache__
+ClimatExML/mlflow_tools/__pycache__
+ocean_slay/
