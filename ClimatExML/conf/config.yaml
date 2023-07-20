@@ -1,5 +1,5 @@
 hyperparameters:
-  batch_size: 1
+  batch_size: 8
   # Adam Optimizer
   learning_rate: 0.00025
   b1: 0.9
@@ -7,9 +7,9 @@ hyperparameters:
   gp_lambda: 10
   alpha: 50.0
   n_critic: 5
-  max_epochs: 20
+  max_epochs: 7
 
-# mlflow server --backend-store-uri sqlite:///climatexdb.sqlite --default-artifact-root /Users/susanbeale/desktop/climate_ml_artifacts
+# mlflow server --backend-store-uri sqlite:///climatexdb.sqlite --default-artifact-root /Users/susanbeale/desktop/climate_ml_artifacts --port 8000
 tracking:
   tracking_uri: sqlite:////Users/susanbeale/desktop/climate_ml_artifacts/climatexdb.sqlite
   default_artifact_root: /Users/susanbeale/desktop/climate_ml_artifacts
@@ -19,7 +19,7 @@ tracking:
   log_every_n_steps: 100
 
 training:
-  num_workers: 16
+  num_workers: 8
   precision: "32"
   accelerator: "cpu"
 
@@ -34,12 +34,12 @@ data:
     - 128 # y size
   files:
     lr_test:
-      - /Volumes/LaCie/2year_coarsened_cropped/test/uas/lr/*.pt
-      - /Volumes/LaCie/2year_coarsened_cropped/test/vas/lr/*.pt
+      - /Users/susanbeale/Desktop/2year_coarsened_cropped/test/uas/lr/*.pt
+      - /Users/susanbeale/Desktop/2year_coarsened_cropped/test/vas/lr/*.pt
     lr_train:
-      - /Volumes/LaCie/2year_coarsened_cropped/train/uas/lr/*.pt
-      - /Volumes/LaCie/2year_coarsened_cropped/train/vas/lr/*.pt
+      - /Users/susanbeale/Desktop/2year_coarsened_cropped/train/uas/lr/*.pt
+      - /Users/susanbeale/Desktop/2year_coarsened_cropped/train/vas/lr/*.pt
     hr_test:
-      - /Volumes/LaCie/2year_coarsened_cropped/test/hs/hr/*.pt
+      - /Users/susanbeale/Desktop/2year_coarsened_cropped/test/hs/hr/*.pt
     hr_train:
-      - /Volumes/LaCie/2year_coarsened_cropped/train/hs/hr/*.pt
+      - /Users/susanbeale/Desktop/2year_coarsened_cropped/train/hs/hr/*.pt
