@@ -158,7 +158,7 @@ class SuperResolutionWGANGP(pl.LightningModule):
                         n_examples=3,
                         cmap="viridis",
                     ),
-                    f"train_images_{var}.png",
+                    f"train_images_{var}_{self.current_epoch}_{batch_idx + 1}.png",
                 )
                 plt.close()
 
@@ -181,15 +181,24 @@ class SuperResolutionWGANGP(pl.LightningModule):
             }
         )
 
-        fig = plt.figure(figsize=(30, 10))
-        self.logger.experiment.log_figure(
-            mlflow.active_run().info.run_id,
-            gen_grid_images(
-                fig, self.G, lr, hr, self.batch_size, n_examples=3, cmap="viridis"
-            ),
-            f"test_images_{self.current_epoch}.png",
-        )
-        plt.close()
+        if (batch_idx + 1) % self.log_every_n_steps == 0:
+            fig = plt.figure(figsize=(30, 10))
+            for var in range(lr.shape[1]):
+                self.logger.experiment.log_figure(
+                    mlflow.active_run().info.run_id,
+                    gen_grid_images(
+                        var,
+                        fig,
+                        self.G,
+                        lr,
+                        hr,
+                        self.batch_size,
+                        n_examples=3,
+                        cmap="viridis",
+                    ),
+                    f"test_images_{var}.png",
+                )
+                plt.close()
 
     def configure_optimizers(self):
         opt_g = torch.optim.Adam(

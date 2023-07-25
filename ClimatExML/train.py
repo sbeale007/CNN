@@ -9,7 +9,7 @@ import logging
 import hydra
 
 
-@hydra.main(config_path="conf", config_name="config")
+@hydra.main(config_path="conf", config_name="config", version_base='1.1')
 def main(cfg: dict):
     mlflow.pytorch.autolog(log_every_n_step=100, log_models=True)
     mlflow.set_tracking_uri(cfg.tracking.tracking_uri)
@@ -72,7 +72,8 @@ def main(cfg: dict):
         
         trainer.fit(srmodel, datamodule=clim_data)
 
-        trainer.test(datamodule=clim_data)
+        trainer.test(datamodule=clim_data, ckpt_path='last')
+        trainer.test(datamodule=clim_data, ckpt_path='best')
 
 
 if __name__ == "__main__":

@@ -34,12 +34,12 @@ data:
     - 128 # y size
   files:
     lr_test:
-      - /Users/susanbeale/Desktop/2year_coarsened_cropped/test/uas/lr/*.pt
-      - /Users/susanbeale/Desktop/2year_coarsened_cropped/test/vas/lr/*.pt
+      - /Volumes/LaCie/2year_coarsened_cropped/test/uas/lr/*.pt
+      - /Volumes/LaCie/2year_coarsened_cropped/test/vas/lr/*.pt
     lr_train:
-      - /Users/susanbeale/Desktop/2year_coarsened_cropped/train/uas/lr/*.pt
-      - /Users/susanbeale/Desktop/2year_coarsened_cropped/train/vas/lr/*.pt
+      - /Volumes/LaCie/2year_coarsened_cropped/train/uas/lr/*.pt
+      - /Volumes/LaCie/2year_coarsened_cropped/train/vas/lr/*.pt
     hr_test:
-      - /Users/susanbeale/Desktop/2year_coarsened_cropped/test/hs/hr/*.pt
+      - /Volumes/LaCie/2year_coarsened_cropped/test/hs/hr/*.pt
     hr_train:
-      - /Users/susanbeale/Desktop/2year_coarsened_cropped/train/hs/hr/*.pt
+      - /Volumes/LaCie/2year_coarsened_cropped/train/hs/hr/*.pt

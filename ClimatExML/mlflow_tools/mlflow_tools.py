@@ -91,14 +91,14 @@ def gen_grid_images(
     ax = make_subfig(
         subfigs,
         1,
-        f"Super Resolved Fields Min: {sr_grid.min()} Max: {sr_grid.max()}",
+        f"Significant Wave Height Fields Min: {sr_grid.min()} Max: {sr_grid.max()}",
         sr_grid,
         cmap,
     )
     ax = make_subfig(
         subfigs,
         2,
-        f"Ground Truth Fields Min: {hr_grid.min()} Max: {hr_grid.max()}",
+        f"Ground Truth hs Fields Min: {hr_grid.min()} Max: {hr_grid.max()}",
         hr_grid,
         cmap,
     )
