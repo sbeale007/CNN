@@ -70,7 +70,7 @@ def main(cfg: dict):
             logger=mlflow_logger,
             default_root_dir=artifact_path,
             detect_anomaly=False,
-            check_val_every_n_epoch=2,
+            check_val_every_n_epoch=1,
         )
         
         trainer.fit(srmodel, datamodule=clim_data)
