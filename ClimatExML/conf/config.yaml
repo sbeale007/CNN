@@ -7,7 +7,7 @@ hyperparameters:
   gp_lambda: 10
   alpha: 50.0
   n_critic: 5
-  max_epochs: 7
+  max_epochs: 2
 
 # mlflow server --backend-store-uri sqlite:///climatexdb.sqlite --default-artifact-root /Users/susanbeale/desktop/climate_ml_artifacts --port 8000
 tracking:
@@ -34,12 +34,17 @@ data:
     - 128 # y size
   files:
     lr_test:
-      - /Volumes/LaCie/2year_coarsened_cropped/test/uas/lr/*.pt
-      - /Volumes/LaCie/2year_coarsened_cropped/test/vas/lr/*.pt
+      - /Users/susanbeale/Desktop/2yr_tester/test/uas/lr/*.pt
+      - /Users/susanbeale/Desktop/2yr_tester/test/vas/lr/*.pt
     lr_train:
-      - /Volumes/LaCie/2year_coarsened_cropped/train/uas/lr/*.pt
-      - /Volumes/LaCie/2year_coarsened_cropped/train/vas/lr/*.pt
+      - /Users/susanbeale/Desktop/2yr_tester/train/uas/lr/*.pt
+      - /Users/susanbeale/Desktop/2yr_tester/train/vas/lr/*.pt
+    lr_validation:
+      - /Users/susanbeale/Desktop/2yr_tester/validation/uas/lr/*.pt
+      - /Users/susanbeale/Desktop/2yr_tester/validation/vas/lr/*.pt
     hr_test:
-      - /Volumes/LaCie/2year_coarsened_cropped/test/hs/hr/*.pt
+      - /Users/susanbeale/Desktop/2yr_tester/test/hs/hr/*.pt
     hr_train:
-      - /Volumes/LaCie/2year_coarsened_cropped/train/hs/hr/*.pt
+      - /Users/susanbeale/Desktop/2yr_tester/train/hs/hr/*.pt
+    hr_validation:
+      - /Users/susanbeale/Desktop/2yr_tester/validation/hs/hr/*.pt

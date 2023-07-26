@@ -27,10 +27,12 @@ def main(cfg: dict):
 
     with mlflow.start_run() as run:
         data = {
-            "lr_train": [glob.glob(path) for path in cfg.data.files.lr_train],
-            "hr_train": [glob.glob(path) for path in cfg.data.files.hr_train],
-            "lr_test": [glob.glob(path) for path in cfg.data.files.lr_test],
-            "hr_test": [glob.glob(path) for path in cfg.data.files.hr_test]
+            "lr_train": [sorted(glob.glob(path)) for path in cfg.data.files.lr_train],
+            "hr_train": [sorted(glob.glob(path)) for path in cfg.data.files.hr_train],
+            "lr_test": [sorted(glob.glob(path)) for path in cfg.data.files.lr_test],
+            "hr_test": [sorted(glob.glob(path)) for path in cfg.data.files.hr_test],
+            "lr_validation": [sorted(glob.glob(path)) for path in cfg.data.files.lr_validation],
+            "hr_validation": [sorted(glob.glob(path)) for path in cfg.data.files.hr_validation]
         }
 
         clim_data = ClimatExMLData(
@@ -68,12 +70,12 @@ def main(cfg: dict):
             logger=mlflow_logger,
             default_root_dir=artifact_path,
             detect_anomaly=False,
+            check_val_every_n_epoch=2,
         )
         
         trainer.fit(srmodel, datamodule=clim_data)
 
-        trainer.test(datamodule=clim_data, ckpt_path='last')
-        trainer.test(datamodule=clim_data, ckpt_path='best')
+        trainer.test(datamodule=clim_data)
 
 
 if __name__ == "__main__":

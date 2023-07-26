@@ -200,6 +200,42 @@ class SuperResolutionWGANGP(pl.LightningModule):
                 )
                 plt.close()
 
+    def validation_step(self, batch, batch_idx):
+        # if (batch_idx + 1) % self.log_every_n_steps == 0:
+        lr, hr = batch
+        sr = self.G(lr)
+        val_loss = content_loss(
+            sr, hr
+        )
+        self.log_dict(
+            {
+                "Validation MAE": content_loss(sr, hr),
+                "Validation MSE": mean_squared_error(sr, hr),
+                "Validation MSSIM": SSIM_Loss(sr, hr, any),
+                "Validation loss": val_loss,
+            }
+        )   
+
+        if (batch_idx + 1) % self.log_every_n_steps == 0:
+            fig = plt.figure(figsize=(30, 10))
+            for var in range(lr.shape[1]):
+                self.logger.experiment.log_figure(
+                    mlflow.active_run().info.run_id,
+                    gen_grid_images(
+                        var,
+                        fig,
+                        self.G,
+                        lr,
+                        hr,
+                        self.batch_size,
+                        n_examples=3,
+                        cmap="viridis",
+                    ),
+                    f"validation_images_{var}_{self.current_epoch}_{batch_idx + 1}.png",
+                )
+                plt.close()
+
+
     def configure_optimizers(self):
         opt_g = torch.optim.Adam(
             self.G.parameters(), lr=self.learning_rate, betas=(self.b1, self.b2)

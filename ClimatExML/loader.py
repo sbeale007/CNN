@@ -35,6 +35,9 @@ class ClimatExMLData(pl.LightningDataModule):
         self.train_data = ClimatExMLLoader(
             self.data_glob["lr_train"], self.data_glob["hr_train"]
         )
+        self.validation_data = ClimatExMLLoader(
+            self.data_glob["lr_validation"], self.data_glob["hr_validation"]
+        )
 
     def train_dataloader(self):
         return (
@@ -52,6 +55,18 @@ class ClimatExMLData(pl.LightningDataModule):
         return (
             DataLoader(
                 self.test_data,
+                batch_size=self.batch_size,
+                num_workers=self.num_workers,
+                shuffle=False,
+                pin_memory=True,
+            ),
+        )
+    
+    def val_dataloader(self):
+        # For some reason this can't be a dictionary?
+        return (
+            DataLoader(
+                self.validation_data,
                 batch_size=self.batch_size,
                 num_workers=self.num_workers,
                 shuffle=False,
