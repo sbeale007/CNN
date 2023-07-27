@@ -134,16 +134,14 @@ class SuperResolutionWGANGP(pl.LightningModule):
 
         self.log_dict(
             {
-                "MAE": content_loss(sr, hr),
-                "MSE": mean_squared_error(sr, hr),
-                "MSSIM": SSIM_Loss(sr, hr, any),
-                "loss": loss_g,
-                # "Wasserstein Distance": torch.mean(self.C(hr))
-                # - torch.mean(self.C(sr)),
+                "Train MAE": content_loss(sr, hr),
+                "Train MSE": mean_squared_error(sr, hr),
+                "Train MSSIM": SSIM_Loss(sr, hr, any),
+                "Train loss": loss_g,
             }
         )
 
-        if (batch_idx + 1) % self.log_every_n_steps == 0:
+        if (batch_idx + 1) % 500 == 0:
             fig = plt.figure(figsize=(30, 10))
             for var in range(lr.shape[1]):
                 self.logger.experiment.log_figure(
@@ -176,12 +174,10 @@ class SuperResolutionWGANGP(pl.LightningModule):
                 "Test MAE": content_loss(sr, hr),
                 "Test MSE": mean_squared_error(sr, hr),
                 "Test MSSIM": SSIM_Loss(sr, hr, any),
-            #     "Test Wasserstein Distance": torch.mean(self.C(hr))
-            #     - torch.mean(self.C(sr)),
             }
         )
 
-        if (batch_idx + 1) % self.log_every_n_steps == 0:
+        if (batch_idx + 1) % 500 == 0:
             fig = plt.figure(figsize=(30, 10))
             for var in range(lr.shape[1]):
                 self.logger.experiment.log_figure(
@@ -216,7 +212,7 @@ class SuperResolutionWGANGP(pl.LightningModule):
             }
         )   
 
-        if (batch_idx + 1) % self.log_every_n_steps == 0:
+        if (batch_idx + 1) % 500 == 0:
             fig = plt.figure(figsize=(30, 10))
             for var in range(lr.shape[1]):
                 self.logger.experiment.log_figure(

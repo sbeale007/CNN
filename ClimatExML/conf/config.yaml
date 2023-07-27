@@ -7,7 +7,7 @@ hyperparameters:
   gp_lambda: 10
   alpha: 50.0
   n_critic: 5
-  max_epochs: 2
+  max_epochs: 4
 
 # mlflow server --backend-store-uri sqlite:///climatexdb.sqlite --default-artifact-root /Users/susanbeale/desktop/climate_ml_artifacts --port 8000
 tracking:
@@ -34,17 +34,17 @@ data:
     - 128 # y size
   files:
     lr_test:
-      - /Users/susanbeale/Desktop/2yr_tester/test/uas/lr/*.pt
-      - /Users/susanbeale/Desktop/2yr_tester/test/vas/lr/*.pt
+      - /Users/susanbeale/Desktop/95_97_med_w_small_hs/test/uas/lr/*.pt
+      - /Users/susanbeale/Desktop/95_97_med_w_small_hs/test/vas/lr/*.pt
     lr_train:
-      - /Users/susanbeale/Desktop/2yr_tester/train/uas/lr/*.pt
-      - /Users/susanbeale/Desktop/2yr_tester/train/vas/lr/*.pt
+      - /Users/susanbeale/Desktop/95_97_med_w_small_hs/train/uas/lr/*.pt
+      - /Users/susanbeale/Desktop/95_97_med_w_small_hs/train/vas/lr/*.pt
     lr_validation:
-      - /Users/susanbeale/Desktop/2yr_tester/validation/uas/lr/*.pt
-      - /Users/susanbeale/Desktop/2yr_tester/validation/vas/lr/*.pt
+      - /Users/susanbeale/Desktop/95_97_med_w_small_hs/validation/uas/lr/*.pt
+      - /Users/susanbeale/Desktop/95_97_med_w_small_hs/validation/vas/lr/*.pt
     hr_test:
-      - /Users/susanbeale/Desktop/2yr_tester/test/hs/hr/*.pt
+      - /Users/susanbeale/Desktop/95_97_med_w_small_hs/test/hs/hr/*.pt
     hr_train:
-      - /Users/susanbeale/Desktop/2yr_tester/train/hs/hr/*.pt
+      - /Users/susanbeale/Desktop/95_97_med_w_small_hs/train/hs/hr/*.pt
     hr_validation:
-      - /Users/susanbeale/Desktop/2yr_tester/validation/hs/hr/*.pt
+      - /Users/susanbeale/Desktop/95_97_med_w_small_hs/validation/hs/hr/*.pt
