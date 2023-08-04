@@ -1,7 +1,7 @@
 import pytorch_lightning as pl
 import torch.nn.functional as F
 import torch
-from ClimatExML.models import Generator
+from ClimatExML.models import Generator, Generator_hr_cov
 from ClimatExML.mlflow_tools.mlflow_tools import (
     gen_grid_images,
     log_metrics_every_n_steps,
@@ -29,8 +29,9 @@ class SuperResolutionWGANGP(pl.LightningModule):
         b2: float = 0.999,
         gp_lambda: float = 10,
         alpha: float = 1e-3,
-        lr_shape: tuple = (3, 64, 64),
-        hr_shape: tuple = (2, 512, 512),
+        lr_shape: tuple = (2, 16, 16),
+        hr_shape: tuple = (1, 128, 128),
+        hr_cov_shape: tuple = (1, 128, 128),
         n_critic: int = 5,
         log_every_n_steps: int = 100,
         artifact_path: str = None,
@@ -54,12 +55,20 @@ class SuperResolutionWGANGP(pl.LightningModule):
         self.alpha = alpha
         self.log_every_n_steps = log_every_n_steps
         self.artifact_path = artifact_path
+        self.hr_cov_shape = hr_cov_shape
 
         # networks
         n_covariates, lr_dim, _ = self.lr_shape
         n_predictands, hr_dim, _ = self.hr_shape
         # DEBUG coarse_dim_n, fine_dim_n, n_covariates, n_predictands
-        self.G = Generator(lr_dim, hr_dim, n_covariates, n_predictands)
+
+        if self.hr_cov_shape is not None:
+            n_hr_covariates = hr_cov_shape[0]
+            self.G = Generator_hr_cov(
+                lr_dim, hr_dim, n_covariates, n_hr_covariates, n_predictands
+            )
+        else:
+            self.G = Generator(lr_dim, hr_dim, n_covariates, n_predictands)
 
         self.automatic_optimization = False
 
@@ -108,14 +117,19 @@ class SuperResolutionWGANGP(pl.LightningModule):
         return self.gp_lambda * ((gradients_norm - 1) ** 2).mean()
 
     def training_step(self, batch, batch_idx):
+
+        if self.hr_cov_shape is not None:
+            lr, hr, hr_cov = batch[0]
+            sr = self.G(lr, hr_cov)
+        else:
+            lr, hr = batch[0]
+            sr = self.G(lr)
+
         # train generator
-        lr, hr = batch[0]
         g_opt = self.optimizers()
-        # sr = self.G(lr).detach()
-        # gradient_penalty = self.compute_gradient_penalty(hr, sr)
 
         self.toggle_optimizer(g_opt)
-        sr = self.G(lr)
+
         loss_g = content_loss(
             sr, hr
         )
@@ -152,7 +166,9 @@ class SuperResolutionWGANGP(pl.LightningModule):
                         self.G,
                         lr,
                         hr,
+                        hr_cov,
                         self.batch_size,
+                        use_hr_cov=self.hr_cov_shape is not None,
                         n_examples=3,
                         cmap="viridis",
                     ),
@@ -167,8 +183,11 @@ class SuperResolutionWGANGP(pl.LightningModule):
 
     def test_step(self, batch, batch_idx):
         # if (batch_idx + 1) % self.log_every_n_steps == 0:
-        lr, hr = batch
-        sr = self.G(lr)
+        lr, hr, hr_cov = batch
+        if self.use_hr_cov:
+            sr = self.G(lr, hr_cov)
+        else:
+            sr = self.G(lr)
         self.log_dict(
             {
                 "Test MAE": content_loss(sr, hr),
@@ -188,7 +207,9 @@ class SuperResolutionWGANGP(pl.LightningModule):
                         self.G,
                         lr,
                         hr,
+                        hr_cov,
                         self.batch_size,
+                        use_hr_cov=self.hr_cov_shape is not None,
                         n_examples=3,
                         cmap="viridis",
                     ),
@@ -198,8 +219,11 @@ class SuperResolutionWGANGP(pl.LightningModule):
 
     def validation_step(self, batch, batch_idx):
         # if (batch_idx + 1) % self.log_every_n_steps == 0:
-        lr, hr = batch
-        sr = self.G(lr)
+        lr, hr, hr_cov = batch
+        if self.use_hr_cov:
+            sr = self.G(lr, hr_cov)
+        else:
+            sr = self.G(lr)
         val_loss = content_loss(
             sr, hr
         )
@@ -223,7 +247,9 @@ class SuperResolutionWGANGP(pl.LightningModule):
                         self.G,
                         lr,
                         hr,
+                        hr_cov,
                         self.batch_size,
+                        use_hr_cov=self.hr_cov_shape is not None,
                         n_examples=3,
                         cmap="viridis",
                     ),
