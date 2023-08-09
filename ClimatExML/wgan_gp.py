@@ -166,9 +166,9 @@ class SuperResolutionWGANGP(pl.LightningModule):
             }
         )
 
-        if (batch_idx + 1) % 50 == 0:
+        if (batch_idx + 1) % 100 == 0:
             fig = plt.figure(figsize=(30, 10))
-            for var in range(lr.shape[1]):
+            for var in range(sr.shape[1]):
                 self.logger.experiment.log_figure(
                     mlflow.active_run().info.run_id,
                     gen_grid_images(
@@ -176,14 +176,16 @@ class SuperResolutionWGANGP(pl.LightningModule):
                         fig,
                         self.G,
                         lr,
+                        lr_large,
                         hr,
                         hr_cov,
                         self.batch_size,
+                        use_lr_large=self.lr_large_shape is not None,
                         use_hr_cov=self.hr_cov_shape is not None,
-                        n_examples=3,
+                        n_examples=4,
                         cmap="viridis",
                     ),
-                    f"train_images_{var}_{self.current_epoch}_{batch_idx + 1}.png",
+                    f"train_images_{var}_{self.current_epoch}.png",
                 )
                 plt.close()
 
@@ -194,10 +196,14 @@ class SuperResolutionWGANGP(pl.LightningModule):
 
     def test_step(self, batch, batch_idx):
         # if (batch_idx + 1) % self.log_every_n_steps == 0:
-        lr, hr, hr_cov = batch
-        if self.use_hr_cov:
+        if self.lr_large_shape is not None:
+            lr, lr_large, hr, hr_cov = batch[0]
+            sr = self.G(lr, lr_large, hr_cov)
+        elif self.hr_cov_shape is not None:
+            lr, hr, hr_cov = batch[0]
             sr = self.G(lr, hr_cov)
         else:
+            lr, hr = batch[0]
             sr = self.G(lr)
         self.log_dict(
             {
@@ -207,9 +213,9 @@ class SuperResolutionWGANGP(pl.LightningModule):
             }
         )
 
-        if (batch_idx + 1) % 500 == 0:
+        if (batch_idx + 1) % 50 == 0:
             fig = plt.figure(figsize=(30, 10))
-            for var in range(lr.shape[1]):
+            for var in range(sr.shape[1]):
                 self.logger.experiment.log_figure(
                     mlflow.active_run().info.run_id,
                     gen_grid_images(
@@ -217,23 +223,29 @@ class SuperResolutionWGANGP(pl.LightningModule):
                         fig,
                         self.G,
                         lr,
+                        lr_large,
                         hr,
                         hr_cov,
                         self.batch_size,
+                        use_lr_large=self.lr_large_shape is not None,
                         use_hr_cov=self.hr_cov_shape is not None,
-                        n_examples=3,
+                        n_examples=4,
                         cmap="viridis",
                     ),
-                    f"test_images_{var}.png",
+                    f"test_images_{var}_{self.current_epoch}.png",
                 )
                 plt.close()
 
     def validation_step(self, batch, batch_idx):
         # if (batch_idx + 1) % self.log_every_n_steps == 0:
-        lr, hr, hr_cov = batch
-        if self.use_hr_cov:
+        if self.lr_large_shape is not None:
+            lr, lr_large, hr, hr_cov = batch[0]
+            sr = self.G(lr, lr_large, hr_cov)
+        elif self.hr_cov_shape is not None:
+            lr, hr, hr_cov = batch[0]
             sr = self.G(lr, hr_cov)
         else:
+            lr, hr = batch[0]
             sr = self.G(lr)
         val_loss = content_loss(
             sr, hr
@@ -247,9 +259,9 @@ class SuperResolutionWGANGP(pl.LightningModule):
             }
         )   
 
-        if (batch_idx + 1) % 500 == 0:
+        if (batch_idx + 1) % 50 == 0:
             fig = plt.figure(figsize=(30, 10))
-            for var in range(lr.shape[1]):
+            for var in range(sr.shape[1]):
                 self.logger.experiment.log_figure(
                     mlflow.active_run().info.run_id,
                     gen_grid_images(
@@ -257,14 +269,16 @@ class SuperResolutionWGANGP(pl.LightningModule):
                         fig,
                         self.G,
                         lr,
+                        lr_large,
                         hr,
                         hr_cov,
                         self.batch_size,
+                        use_lr_large=self.lr_large_shape is not None,
                         use_hr_cov=self.hr_cov_shape is not None,
-                        n_examples=3,
+                        n_examples=4,
                         cmap="viridis",
                     ),
-                    f"validation_images_{var}_{self.current_epoch}_{batch_idx + 1}.png",
+                    f"validation_images_{var}_{self.current_epoch}.png",
                 )
                 plt.close()
 
