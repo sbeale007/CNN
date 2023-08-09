@@ -28,10 +28,13 @@ def main(cfg: dict):
     with mlflow.start_run() as run:
         data = {
             "lr_train": [sorted(glob.glob(path)) for path in cfg.data.files.lr_train],
+            "lr_large_train": [sorted(glob.glob(path)) for path in cfg.data.files.lr_large_train],
             "hr_train": [sorted(glob.glob(path)) for path in cfg.data.files.hr_train],
             "lr_test": [sorted(glob.glob(path)) for path in cfg.data.files.lr_test],
+            "lr_large_test": [sorted(glob.glob(path)) for path in cfg.data.files.lr_large_test],
             "hr_test": [sorted(glob.glob(path)) for path in cfg.data.files.hr_test],
             "lr_validation": [sorted(glob.glob(path)) for path in cfg.data.files.lr_validation],
+            "lr_large_validation": [sorted(glob.glob(path)) for path in cfg.data.files.lr_large_validation],
             "hr_validation": [sorted(glob.glob(path)) for path in cfg.data.files.hr_validation],
             "hr_cov": cfg.data.files.hr_cov,
         }
@@ -59,6 +62,7 @@ def main(cfg: dict):
             gp_lambda=cfg.hyperparameters.gp_lambda,
             alpha=cfg.hyperparameters.alpha,
             lr_shape=cfg.data.lr_shape,
+            lr_large_shape=cfg.data.lr_large_shape,
             hr_shape=cfg.data.hr_shape,
             hr_cov_shape=cfg.data.hr_shape,
             artifact_path=artifact_path,

@@ -94,7 +94,7 @@ class Generator(nn.Module):
         filters,
         fine_dims,
         channels,
-        n_predictands=2,
+        n_predictands=1,
         num_res_blocks=16,
         num_upsample=3,
     ):
@@ -144,7 +144,7 @@ class Generator_hr_cov(nn.Module):
         fine_dims,
         channels,
         channels_hr_cov=1,
-        n_predictands=2,
+        n_predictands=1,
         num_res_blocks=16,
         num_res_blocks_fine=1,
         num_upsample=3,
@@ -196,6 +196,78 @@ class Generator_hr_cov(nn.Module):
         outc = self.upsampling(out)
         outf = self.HR_pre(x_fine)  ## HR branch
         out = torch.cat((outc, outf), 1)  ##combine
+        out = self.conv3(out)
+        return out
+    
+class Generator_lr_global(nn.Module):
+    # coarse_dim_n, fine_dim_n, n_covariates, n_predictands
+    def __init__(
+        self,
+        filters,
+        fine_dims,
+        channels,
+        channels_hr_cov=1,
+        n_predictands=1,
+        num_res_blocks=16,
+        num_res_blocks_fine=1,
+        num_upsample=3,
+    ):
+        super(Generator_lr_global, self).__init__()
+        self.fine_res = fine_dims
+        # First layer
+        self.conv1 = nn.Conv2d(channels, filters, kernel_size=3, stride=1, padding=1)
+        self.conv1f = nn.Conv2d(
+            channels_hr_cov, filters, kernel_size=3, stride=1, padding=1
+        )
+        self.conv1l = nn.Conv2d(channels, filters, kernel_size=3, stride =1, padding=1)
+        # Residual blocks
+        self.res_blocks = nn.Sequential(
+            *[ResidualInResidualDenseBlock(filters) for _ in range(num_res_blocks)]
+        )
+        self.res_blocksf = nn.Sequential(
+            *[ResidualInResidualDenseBlock(filters) for _ in range(num_res_blocks_fine)]
+        )
+        self.res_blocksl = nn.Sequential(
+            *[ResidualInResidualDenseBlock(filters) for _ in range(num_res_blocks)]
+        )
+
+        # Second conv layer post residual blocks
+        self.conv2 = nn.Conv2d(filters, filters, kernel_size=3, stride=1, padding=1)
+        self.LR_pre = nn.Sequential(
+            self.conv1, ShortcutBlock(nn.Sequential(self.res_blocks, self.conv2))
+        )
+        self.HR_pre = nn.Sequential(
+            self.conv1f, ShortcutBlock(nn.Sequential(self.res_blocksf, self.conv2))
+        )
+        self.LR_large = nn.Sequential(
+            self.conv1l, ShortcutBlock(nn.Sequential(self.res_blocksl, self.conv2))
+        )
+
+        # Upsampling layers
+        upsample_layers = []
+        for _ in range(num_upsample):
+            upsample_layers += [
+                nn.Conv2d(filters, filters * 4, kernel_size=3, stride=1, padding=1),
+                nn.LeakyReLU(),
+                nn.PixelShuffle(upscale_factor=2),
+            ]
+        self.upsampling = nn.Sequential(*upsample_layers)
+        # Final output block
+        self.conv3 = nn.Sequential(
+            # nn.Conv2d(filters * 2, filters + 1, kernel_size=3, stride=1, padding=1),
+            # ResidualInResidualDenseBlock(filters + 1),
+            nn.Conv2d(filters * 2, filters + 1, kernel_size=3, stride=1, padding=1),
+            nn.LeakyReLU(),
+            nn.Conv2d(filters + 1, n_predictands, kernel_size=3, stride=1, padding=1),
+        )
+
+    def forward(self, x_small, x_large, x_fine):
+        out = self.LR_pre(x_small)  ## LR branch
+        outc = self.upsampling(out)
+        out = self.LR_large(x_large)
+        outl = self.upsampling(out)
+        outf = self.HR_pre(x_fine)  ## HR branch
+        out = torch.cat((outc, outl, outf), 1)  ##combine
         out = self.conv3(out)
         return out
 

@@ -1,7 +1,7 @@
 import pytorch_lightning as pl
 import torch.nn.functional as F
 import torch
-from ClimatExML.models import Generator, Generator_hr_cov
+from ClimatExML.models import Generator, Generator_hr_cov, Generator_lr_global
 from ClimatExML.mlflow_tools.mlflow_tools import (
     gen_grid_images,
     log_metrics_every_n_steps,
@@ -30,6 +30,7 @@ class SuperResolutionWGANGP(pl.LightningModule):
         gp_lambda: float = 10,
         alpha: float = 1e-3,
         lr_shape: tuple = (2, 16, 16),
+        lr_large_shape: tuple = (2, 16, 16),
         hr_shape: tuple = (1, 128, 128),
         hr_cov_shape: tuple = (1, 128, 128),
         n_critic: int = 5,
@@ -49,6 +50,7 @@ class SuperResolutionWGANGP(pl.LightningModule):
         self.b2 = b2
         self.batch_size = batch_size
         self.lr_shape = lr_shape
+        self.lr_large_shape = lr_large_shape
         self.hr_shape = hr_shape
         self.gp_lambda = gp_lambda
         self.n_critic = n_critic
@@ -59,10 +61,17 @@ class SuperResolutionWGANGP(pl.LightningModule):
 
         # networks
         n_covariates, lr_dim, _ = self.lr_shape
+        n_covariates, lr_large_dim, _ = self.lr_large_shape
         n_predictands, hr_dim, _ = self.hr_shape
         # DEBUG coarse_dim_n, fine_dim_n, n_covariates, n_predictands
 
-        if self.hr_cov_shape is not None:
+        if self.lr_large_shape is not None:
+            n_covariates = lr_large_shape[0]
+            n_hr_covariates = hr_cov_shape[0]
+            self.G = Generator_lr_global(
+                lr_dim, hr_dim, n_covariates, n_hr_covariates, n_predictands
+            )
+        elif self.hr_cov_shape is not None:
             n_hr_covariates = hr_cov_shape[0]
             self.G = Generator_hr_cov(
                 lr_dim, hr_dim, n_covariates, n_hr_covariates, n_predictands
@@ -117,8 +126,10 @@ class SuperResolutionWGANGP(pl.LightningModule):
         return self.gp_lambda * ((gradients_norm - 1) ** 2).mean()
 
     def training_step(self, batch, batch_idx):
-
-        if self.hr_cov_shape is not None:
+        if self.lr_large_shape is not None:
+            lr, lr_large, hr, hr_cov = batch[0]
+            sr = self.G(lr, lr_large, hr_cov)
+        elif self.hr_cov_shape is not None:
             lr, hr, hr_cov = batch[0]
             sr = self.G(lr, hr_cov)
         else:
@@ -155,7 +166,7 @@ class SuperResolutionWGANGP(pl.LightningModule):
             }
         )
 
-        if (batch_idx + 1) % 500 == 0:
+        if (batch_idx + 1) % 50 == 0:
             fig = plt.figure(figsize=(30, 10))
             for var in range(lr.shape[1]):
                 self.logger.experiment.log_figure(

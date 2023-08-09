@@ -7,7 +7,7 @@ hyperparameters:
   gp_lambda: 10
   alpha: 50.0
   n_critic: 5
-  max_epochs: 7
+  max_epochs: 3
 
 # mlflow server --backend-store-uri sqlite:///climatexdb.sqlite --default-artifact-root /Users/susanbeale/desktop/climate_ml_artifacts --port 8000
 tracking:
@@ -19,7 +19,7 @@ tracking:
   log_every_n_steps: 100
 
 training:
-  num_workers: 8
+  num_workers: 16
   precision: "32"
   accelerator: "cpu"
 
@@ -28,24 +28,37 @@ data:
     - 2 # n_covariates
     - 16 # x size
     - 16 # y size
+  lr_large_shape: 
+    - 2 # n_covariates
+    - 16 
+    - 16
   hr_shape:
     - 1 # n_predictands
     - 128 # x size
     - 128 # y size
   files:
     lr_test:
-      - /Volumes/LaCie/2year_landmask/test/uas/lr/*.pt
+      - /Volumes/LaCie/2year_big_small_w/test/uas/lr/*.pt
       - /Volumes/LaCie/2year_landmask/test/vas/lr/*.pt
     lr_train:
-      - /Volumes/LaCie/2year_landmask/train/uas/lr/*.pt
-      - /Volumes/LaCie/2year_landmask/train/vas/lr/*.pt
+      - /Volumes/LaCie/2year_big_small_w/train/uas/lr/*.pt
+      - /Volumes/LaCie/2year_big_small_w/train/vas/lr/*.pt
     lr_validation:
-      - /Volumes/LaCie/2year_landmask/validation/uas/lr/*.pt
-      - /Volumes/LaCie/2year_landmask/validation/vas/lr/*.pt
+      - /Volumes/LaCie/2year_big_small_w/validation/uas/lr/*.pt
+      - /Volumes/LaCie/2year_big_small_w/validation/vas/lr/*.pt
+    lr_large_test:
+      - /Volumes/LaCie/2year_big_small_w/test/uas/lr_big/*.pt
+      - /Volumes/LaCie/2year_landmask/test/vas/lr_big/*.pt
+    lr_large_train:
+      - /Volumes/LaCie/2year_big_small_w/train/uas/lr_big/*.pt
+      - /Volumes/LaCie/2year_big_small_w/train/vas/lr_big/*.pt
+    lr_large_validation:
+      - /Volumes/LaCie/2year_big_small_w/validation/uas/lr_big/*.pt
+      - /Volumes/LaCie/2year_big_small_w/validation/vas/lr_big/*.pt
     hr_test:
-      - /Volumes/LaCie/2year_landmask/test/hs/hr/*.pt
+      - /Volumes/LaCie/2year_big_small_w/test/hs/hr/*.pt
     hr_train:
-      - /Volumes/LaCie/2year_landmask/train/hs/hr/*.pt
+      - /Volumes/LaCie/2year_big_small_w/train/hs/hr/*.pt
     hr_validation:
-      - /Volumes/LaCie/2year_landmask/validation/hs/hr/*.pt
-    hr_cov: /Volumes/LaCie/2year_landmask/train/MAPSTA/hr/MAPSTA_0.pt
+      - /Volumes/LaCie/2year_big_small_w/validation/hs/hr/*.pt
+    hr_cov: /Volumes/LaCie/2year_big_small_w/train/MAPSTA/hr/MAPSTA_0.pt
