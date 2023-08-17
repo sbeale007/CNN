@@ -38,27 +38,27 @@ data:
     - 128 # y size
   files:
     lr_test:
-      - /Volumes/LaCie/2year_big_small_w/test/uas/lr/*.pt
-      - /Volumes/LaCie/2year_landmask/test/vas/lr/*.pt
+      - /home/sbeale/2year_big_small_w/test/uas/lr/*.pt
+      - /home/sbeale/2year_big_small_w/test/vas/lr/*.pt
     lr_train:
-      - /Volumes/LaCie/2year_big_small_w/train/uas/lr/*.pt
-      - /Volumes/LaCie/2year_big_small_w/train/vas/lr/*.pt
+      - /home/sbeale/2year_big_small_w/train/uas/lr/*.pt
+      - /home/sbeale/2year_big_small_w/train/vas/lr/*.pt
     lr_validation:
-      - /Volumes/LaCie/2year_big_small_w/validation/uas/lr/*.pt
-      - /Volumes/LaCie/2year_big_small_w/validation/vas/lr/*.pt
+      - /home/sbeale/2year_big_small_w/validation/uas/lr/*.pt
+      - /home/sbeale/2year_big_small_w/validation/vas/lr/*.pt
     lr_large_test:
-      - /Volumes/LaCie/2year_big_small_w/test/uas/lr_big/*.pt
-      - /Volumes/LaCie/2year_landmask/test/vas/lr_big/*.pt
+      - /home/sbeale/2year_big_small_w/test/uas/lr_big/*.pt
+      - /home/sbeale/2year_big_small_w/test/vas/lr_big/*.pt
     lr_large_train:
-      - /Volumes/LaCie/2year_big_small_w/train/uas/lr_big/*.pt
-      - /Volumes/LaCie/2year_big_small_w/train/vas/lr_big/*.pt
+      - /home/sbeale/2year_big_small_w/train/uas/lr_big/*.pt
+      - /home/sbeale/2year_big_small_w/train/vas/lr_big/*.pt
     lr_large_validation:
-      - /Volumes/LaCie/2year_big_small_w/validation/uas/lr_big/*.pt
-      - /Volumes/LaCie/2year_big_small_w/validation/vas/lr_big/*.pt
+      - /home/sbeale/2year_big_small_w/validation/uas/lr_big/*.pt
+      - /home/sbeale/2year_big_small_w/validation/vas/lr_big/*.pt
     hr_test:
-      - /Volumes/LaCie/2year_big_small_w/test/hs/hr/*.pt
+      - /home/sbeale/2year_big_small_w/test/hs/hr/*.pt
     hr_train:
-      - /Volumes/LaCie/2year_big_small_w/train/hs/hr/*.pt
+      - /home/sbeale/2year_big_small_w/train/hs/hr/*.pt
     hr_validation:
-      - /Volumes/LaCie/2year_big_small_w/validation/hs/hr/*.pt
-    hr_cov: /Volumes/LaCie/2year_big_small_w/train/MAPSTA/hr/MAPSTA_0.pt
+      - /home/sbeale/2year_big_small_w/validation/hs/hr/*.pt
+    hr_cov: /home/sbeale/2year_big_small_w/train/MAPSTA/hr/MAPSTA_0.pt

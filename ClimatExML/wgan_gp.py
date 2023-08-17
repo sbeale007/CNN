@@ -17,6 +17,7 @@ from torchmetrics.functional import (
 )
 import mlflow
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 class SuperResolutionWGANGP(pl.LightningModule):
@@ -168,7 +169,7 @@ class SuperResolutionWGANGP(pl.LightningModule):
 
         if (batch_idx + 1) % 100 == 0:
             fig = plt.figure(figsize=(30, 10))
-            for var in range(sr.shape[1]):
+            for var in range(lr.shape[1]):
                 self.logger.experiment.log_figure(
                     mlflow.active_run().info.run_id,
                     gen_grid_images(
@@ -197,13 +198,13 @@ class SuperResolutionWGANGP(pl.LightningModule):
     def test_step(self, batch, batch_idx):
         # if (batch_idx + 1) % self.log_every_n_steps == 0:
         if self.lr_large_shape is not None:
-            lr, lr_large, hr, hr_cov = batch[0]
+            lr, lr_large, hr, hr_cov = batch
             sr = self.G(lr, lr_large, hr_cov)
         elif self.hr_cov_shape is not None:
-            lr, hr, hr_cov = batch[0]
+            lr, hr, hr_cov = batch
             sr = self.G(lr, hr_cov)
         else:
-            lr, hr = batch[0]
+            lr, hr = batch
             sr = self.G(lr)
         self.log_dict(
             {
@@ -215,7 +216,7 @@ class SuperResolutionWGANGP(pl.LightningModule):
 
         if (batch_idx + 1) % 50 == 0:
             fig = plt.figure(figsize=(30, 10))
-            for var in range(sr.shape[1]):
+            for var in range(lr.shape[1]):
                 self.logger.experiment.log_figure(
                     mlflow.active_run().info.run_id,
                     gen_grid_images(
@@ -239,10 +240,10 @@ class SuperResolutionWGANGP(pl.LightningModule):
     def validation_step(self, batch, batch_idx):
         # if (batch_idx + 1) % self.log_every_n_steps == 0:
         if self.lr_large_shape is not None:
-            lr, lr_large, hr, hr_cov = batch[0]
+            lr, lr_large, hr, hr_cov = batch
             sr = self.G(lr, lr_large, hr_cov)
         elif self.hr_cov_shape is not None:
-            lr, hr, hr_cov = batch[0]
+            lr, hr, hr_cov = batch
             sr = self.G(lr, hr_cov)
         else:
             lr, hr = batch[0]
@@ -261,7 +262,7 @@ class SuperResolutionWGANGP(pl.LightningModule):
 
         if (batch_idx + 1) % 50 == 0:
             fig = plt.figure(figsize=(30, 10))
-            for var in range(sr.shape[1]):
+            for var in range(lr.shape[1]):
                 self.logger.experiment.log_figure(
                     mlflow.active_run().info.run_id,
                     gen_grid_images(
@@ -293,9 +294,13 @@ class SuperResolutionWGANGP(pl.LightningModule):
         return opt_g
     
     def forward(self, x):
-        x = self.G(x)
-        return x
+        x = torch.split(x, [2,2,64], dim=1)
+        lr = x[0]
+        lr_large = x[1]
+        hr_cov = x[2]
+        batch_size = lr.shape[0]
+        hr_cov = hr_cov.reshape([batch_size, 1, 128,128])
+        y = self.G(lr, lr_large, hr_cov)
+        return y
 
-    # def on_train_epoch_end(self) -> None:
-    #     log_pytorch_model(self.G, f"{self.artifact_path}/generator")
-    #     log_pytorch_model(self.C, f"{self.artifact_path}/critic")
+
