@@ -186,7 +186,7 @@ class Generator_hr_cov(nn.Module):
         self.conv3 = nn.Sequential(
             # nn.Conv2d(filters * 2, filters + 1, kernel_size=3, stride=1, padding=1),
             # ResidualInResidualDenseBlock(filters + 1),
-            nn.Conv2d(filters * 2, filters + 1, kernel_size=3, stride=1, padding=1),
+            nn.Conv2d(filters * 3, filters + 1, kernel_size=3, stride=1, padding=1),
             nn.LeakyReLU(),
             nn.Conv2d(filters + 1, n_predictands, kernel_size=3, stride=1, padding=1),
         )
@@ -208,9 +208,9 @@ class Generator_lr_global(nn.Module):
         channels,
         channels_hr_cov=1,
         n_predictands=1,
-        num_res_blocks=1,
+        num_res_blocks=10,
         num_res_blocks_fine=1,
-        num_upsample=3,
+        num_upsample=2,
     ):
         super(Generator_lr_global, self).__init__()
         self.fine_res = fine_dims
