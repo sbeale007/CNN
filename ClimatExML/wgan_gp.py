@@ -30,9 +30,7 @@ class SuperResolutionWGANGP(pl.LightningModule):
         gp_lambda: float = 10,
         alpha: float = 1e-3,
         lr_shape: tuple = (2, 16, 16),
-        lr_large_shape: tuple = (2, 16, 16),
         hr_shape: tuple = (1, 128, 128),
-        hr_cov_shape: tuple = (1, 128, 128),
         n_critic: int = 5,
         log_every_n_steps: int = 100,
         artifact_path: str = None,
@@ -50,34 +48,20 @@ class SuperResolutionWGANGP(pl.LightningModule):
         self.b2 = b2
         self.batch_size = batch_size
         self.lr_shape = lr_shape
-        self.lr_large_shape = lr_large_shape
         self.hr_shape = hr_shape
         self.gp_lambda = gp_lambda
         self.n_critic = n_critic
         self.alpha = alpha
         self.log_every_n_steps = log_every_n_steps
         self.artifact_path = artifact_path
-        self.hr_cov_shape = hr_cov_shape
 
         # networks
         n_covariates, lr_dim, _ = self.lr_shape
-        n_covariates, lr_large_dim, _ = self.lr_large_shape
         n_predictands, hr_dim, _ = self.hr_shape
         # DEBUG coarse_dim_n, fine_dim_n, n_covariates, n_predictands
 
-        if self.lr_large_shape is not None:
-            n_covariates = lr_large_shape[0]
-            n_hr_covariates = hr_cov_shape[0]
-            self.G = Generator_lr_global(
-                lr_dim, hr_dim, n_covariates, n_hr_covariates, n_predictands
-            )
-        elif self.hr_cov_shape is not None:
-            n_hr_covariates = hr_cov_shape[0]
-            self.G = Generator_hr_cov(
-                lr_dim, hr_dim, n_covariates, n_hr_covariates, n_predictands
-            )
-        else:
-            self.G = Generator(lr_dim, hr_dim, n_covariates, n_predictands)
+
+        self.G = Generator(lr_dim, hr_dim, n_covariates, n_predictands)
 
         self.automatic_optimization = False
 
@@ -126,15 +110,9 @@ class SuperResolutionWGANGP(pl.LightningModule):
         return self.gp_lambda * ((gradients_norm - 1) ** 2).mean()
 
     def training_step(self, batch, batch_idx):
-        if self.lr_large_shape is not None:
-            lr, lr_large, hr, hr_cov = batch[0]
-            sr = self.G(lr, lr_large, hr_cov)
-        elif self.hr_cov_shape is not None:
-            lr, hr, hr_cov = batch[0]
-            sr = self.G(lr, hr_cov)
-        else:
-            lr, hr = batch[0]
-            sr = self.G(lr)
+
+        lr, hr = batch[0]
+        sr = self.G(lr)
 
         # train generator
         g_opt = self.optimizers()
@@ -176,13 +154,9 @@ class SuperResolutionWGANGP(pl.LightningModule):
                         fig,
                         self.G,
                         lr,
-                        lr_large,
                         hr,
-                        hr_cov,
                         self.batch_size,
-                        use_lr_large=self.lr_large_shape is not None,
-                        use_hr_cov=self.hr_cov_shape is not None,
-                        n_examples=4,
+                        n_examples=3,
                         cmap="viridis",
                     ),
                     f"train_images_{var}_{self.current_epoch}.png",
@@ -196,15 +170,9 @@ class SuperResolutionWGANGP(pl.LightningModule):
 
     def test_step(self, batch, batch_idx):
         # if (batch_idx + 1) % self.log_every_n_steps == 0:
-        if self.lr_large_shape is not None:
-            lr, lr_large, hr, hr_cov = batch[0]
-            sr = self.G(lr, lr_large, hr_cov)
-        elif self.hr_cov_shape is not None:
-            lr, hr, hr_cov = batch[0]
-            sr = self.G(lr, hr_cov)
-        else:
-            lr, hr = batch[0]
-            sr = self.G(lr)
+
+        lr, hr = batch[0]
+        sr = self.G(lr)
         self.log_dict(
             {
                 "Test MAE": content_loss(sr, hr),
@@ -223,13 +191,9 @@ class SuperResolutionWGANGP(pl.LightningModule):
                         fig,
                         self.G,
                         lr,
-                        lr_large,
                         hr,
-                        hr_cov,
                         self.batch_size,
-                        use_lr_large=self.lr_large_shape is not None,
-                        use_hr_cov=self.hr_cov_shape is not None,
-                        n_examples=4,
+                        n_examples=3,
                         cmap="viridis",
                     ),
                     f"test_images_{var}_{self.current_epoch}.png",
@@ -238,15 +202,8 @@ class SuperResolutionWGANGP(pl.LightningModule):
 
     def validation_step(self, batch, batch_idx):
         # if (batch_idx + 1) % self.log_every_n_steps == 0:
-        if self.lr_large_shape is not None:
-            lr, lr_large, hr, hr_cov = batch[0]
-            sr = self.G(lr, lr_large, hr_cov)
-        elif self.hr_cov_shape is not None:
-            lr, hr, hr_cov = batch[0]
-            sr = self.G(lr, hr_cov)
-        else:
-            lr, hr = batch[0]
-            sr = self.G(lr)
+        lr, hr = batch[0]
+        sr = self.G(lr)
         val_loss = content_loss(
             sr, hr
         )
@@ -269,13 +226,9 @@ class SuperResolutionWGANGP(pl.LightningModule):
                         fig,
                         self.G,
                         lr,
-                        lr_large,
                         hr,
-                        hr_cov,
                         self.batch_size,
-                        use_lr_large=self.lr_large_shape is not None,
-                        use_hr_cov=self.hr_cov_shape is not None,
-                        n_examples=4,
+                        n_examples=3,
                         cmap="viridis",
                     ),
                     f"validation_images_{var}_{self.current_epoch}.png",
