@@ -186,7 +186,7 @@ class SuperResolutionWGANGP(pl.LightningModule):
                         n_examples=4,
                         cmap="viridis",
                     ),
-                    f"train_images_{var}_{self.current_epoch}.png",
+                    f"train_images_{var}.png",
                 )
                 plt.close()
 
@@ -233,7 +233,7 @@ class SuperResolutionWGANGP(pl.LightningModule):
                         n_examples=4,
                         cmap="viridis",
                     ),
-                    f"test_images_{var}_{self.current_epoch}.png",
+                    f"test_images_{var}.png",
                 )
                 plt.close()
 
@@ -279,7 +279,7 @@ class SuperResolutionWGANGP(pl.LightningModule):
                         n_examples=4,
                         cmap="viridis",
                     ),
-                    f"validation_images_{var}_{self.current_epoch}.png",
+                    f"validation_images_{var}.png",
                 )
                 plt.close()
 
@@ -294,7 +294,7 @@ class SuperResolutionWGANGP(pl.LightningModule):
         return opt_g
     
     def forward(self, x):
-        x = torch.split(x, [2,2,64], dim=1)
+        x = torch.split(x, [2,2,16], dim=1)
         lr = x[0]
         lr_large = x[1]
         hr_cov = x[2]
