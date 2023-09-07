@@ -9,10 +9,10 @@ hyperparameters:
   n_critic: 5
   max_epochs: 3
 
-# mlflow server --backend-store-uri sqlite:///climatexdb.sqlite --default-artifact-root /Users/susanbeale/desktop/climate_ml_artifacts --port 8000
+# mlflow server --backend-store-uri sqlite:///climatexdb.sqlite --default-artifact-root /home/sbeale/climate_ml_artifacts --port 8080
 tracking:
-  tracking_uri: sqlite:////Users/susanbeale/desktop/climate_ml_artifacts/climatexdb.sqlite
-  default_artifact_root: /Users/susanbeale/desktop/climate_ml_artifacts
+  tracking_uri: sqlite:////home/sbeale/climate_ml_artifacts/climatexdb.sqlite
+  default_artifact_root: /home/sbeale/climate_ml_artifacts
   experiment_name: "Ocean Waves"
   run_name: "CNN"
   description: "Initial setup with 3060 and pytorch lightning. Same config as Annau2023."
