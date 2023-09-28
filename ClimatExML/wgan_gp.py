@@ -159,7 +159,7 @@ class SuperResolutionWGANGP(pl.LightningModule):
                         n_examples=3,
                         cmap="viridis",
                     ),
-                    f"train_images_{var}_{self.current_epoch}.png",
+                    f"train_images_{var}.png",
                 )
                 plt.close()
 
@@ -196,13 +196,13 @@ class SuperResolutionWGANGP(pl.LightningModule):
                         n_examples=3,
                         cmap="viridis",
                     ),
-                    f"test_images_{var}_{self.current_epoch}.png",
+                    f"test_images_{var}.png",
                 )
                 plt.close()
 
     def validation_step(self, batch, batch_idx):
         # if (batch_idx + 1) % self.log_every_n_steps == 0:
-        lr, hr = batch[0]
+        lr, hr = batch
         sr = self.G(lr)
         val_loss = content_loss(
             sr, hr
@@ -231,7 +231,7 @@ class SuperResolutionWGANGP(pl.LightningModule):
                         n_examples=3,
                         cmap="viridis",
                     ),
-                    f"validation_images_{var}_{self.current_epoch}.png",
+                    f"validation_images_{var}.png",
                 )
                 plt.close()
 

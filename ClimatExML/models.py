@@ -95,8 +95,8 @@ class Generator(nn.Module):
         fine_dims,
         channels,
         n_predictands=1,
-        num_res_blocks=16,
-        num_upsample=2,
+        num_res_blocks=10,
+        num_upsample=1,
     ):
         super(Generator, self).__init__()
 
