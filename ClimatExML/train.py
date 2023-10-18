@@ -38,7 +38,8 @@ def main(cfg: dict):
         clim_data = ClimatExMLData(
             data_glob=data,
             batch_size=cfg.hyperparameters.batch_size,
-            num_workers=cfg.training.num_workers
+            num_workers=cfg.training.num_workers,
+            drop_last=True,
         )
 
         mlflow_logger = MLFlowLogger(
@@ -75,7 +76,7 @@ def main(cfg: dict):
         
         trainer.fit(srmodel, datamodule=clim_data)
 
-        trainer.test(datamodule=clim_data)
+        # trainer.test(datamodule=clim_data)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,108 @@
+[33mcommit 7fc3b4c7bc44faa848d3ae9ebe9dcd8d58720eac[m[33m ([m[1;36mHEAD -> [m[1;32mtime[m[33m)[m
+Author: sbeale007 <sbeale007@gmail.com>
+Date:   Tue Oct 17 21:47:44 2023 -0700
+
+    larger input
+
+[33mcommit 0dcabbe2918603034fe3715f59009da14c27897b[m
+Author: sbeale007 <sbeale007@gmail.com>
+Date:   Tue Oct 17 21:47:19 2023 -0700
+
+    larger input
+
+[33mcommit 06d13a3c811a4829b4083c0d2304109c27b1e286[m[33m ([m[1;31morigin/time[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m
+Author: sbeale007 <sbeale007@gmail.com>
+Date:   Wed Sep 27 21:40:11 2023 -0700
+
+    save
+
+[33mcommit b5acb4e4fa629dd6e8404f601f38db172d71cb98[m
+Author: sbeale007 <sbeale007@gmail.com>
+Date:   Wed Sep 6 22:17:45 2023 -0700
+
+    marvin
+
+[33mcommit 715d53ca67f445e15796c54ec2fe168f6642faac[m
+Author: sbeale007 <sbeale007@gmail.com>
+Date:   Tue Sep 5 10:59:45 2023 -0700
+
+    one input stream
+
+[33mcommit e54b7b9873060d96adf798a075e4d49ba13ef0e4[m
+Author: sbeale007 <sbeale007@gmail.com>
+Date:   Wed Aug 9 14:00:07 2023 -0700
+
+    large and small input
+
+[33mcommit 99ac2c7e31117492dbc513289af0fa2ef5188086[m
+Author: sbeale007 <sbeale007@gmail.com>
+Date:   Wed Aug 9 10:27:27 2023 -0700
+
+    two input streams
+
+[33mcommit 2e75f2a54055e77125f721a366b9b9293d866f11[m
+Author: sbeale007 <sbeale007@gmail.com>
+Date:   Fri Aug 4 12:03:00 2023 -0700
+
+    add validation and landsea mask
+
+[33mcommit ba1e5603584f6e5b2807ba3a41218ba813f02cf3[m
+Author: sbeale007 <sbeale007@gmail.com>
+Date:   Thu Jul 27 13:20:20 2023 -0700
+
+    only logging every 500 images
+
+[33mcommit a657f5e35380ab22be3ed07be7fb439152f9e97c[m
+Author: sbeale007 <sbeale007@gmail.com>
+Date:   Wed Jul 26 13:27:15 2023 -0700
+
+    val working
+
+[33mcommit c4125331707a0ac8c6e96f4474ffa54e161c7b96[m
+Author: sbeale007 <sbeale007@gmail.com>
+Date:   Wed Jul 26 13:01:07 2023 -0700
+
+    adding validation loop
+
+[33mcommit 014bc403523ac3180a7995d8e9580470f49e04a2[m
+Author: sbeale007 <sbeale007@gmail.com>
+Date:   Tue Jul 25 09:49:41 2023 -0700
+
+    adding metrics
+
+[33mcommit e1f79aa1425567d7c19339fa74c5e049bc913bee[m
+Author: sbeale007 <sbeale007@gmail.com>
+Date:   Thu Jul 20 15:16:37 2023 -0700
+
+    changes to config
+
+[33mcommit c92f6da8ea6ae6cb0128dc72a5b2b364dcf14397[m
+Merge: 864a098 cf09a99
+Author: sbeale007 <sbeale007@gmail.com>
+Date:   Thu Jul 6 12:35:06 2023 -0700
+
+    new commit
+
+[33mcommit cf09a99d945d2b845bf4cb19acaed3a8a9b721a0[m
+Author: sbeale007 <sbeale007@gmail.com>
+Date:   Thu Jul 6 12:27:31 2023 -0700
+
+    first commit
+
+[33mcommit 864a098c6c20c3d6cff8306fd9fed01de28aa389[m
+Author: sbeale007 <132512638+sbeale007@users.noreply.github.com>
+Date:   Thu Jul 6 12:23:09 2023 -0700
+
+    Rename io.yaml to config/io.yaml
+
+[33mcommit a8298461cddeb677446e8b75a3cfa3d4b1f0d609[m
+Author: sbeale007 <132512638+sbeale007@users.noreply.github.com>
+Date:   Thu Jul 6 12:22:58 2023 -0700
+
+    Update and rename hyper_config.yaml to config/hyper_config.yaml
+
+[33mcommit 13bfddc3f9bab751ab9204f83cd1c1a701023fee[m
+Author: sbeale007 <132512638+sbeale007@users.noreply.github.com>
+Date:   Thu Jul 6 12:21:58 2023 -0700
+
+    Add files via upload

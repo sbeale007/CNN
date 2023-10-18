@@ -68,7 +68,11 @@ def gen_grid_images(
     random = torch.randint(0, batch_size, (n_examples,))
 
     sr = G(lr[random, ...])
-    lr_grid = torchvision.utils.make_grid(lr[random, ...], nrow=n_examples, padding=5)[
+    lr_grid = torchvision.utils.make_grid(lr[random, 0, ...], nrow=n_examples, padding=5)[
+        var, ...
+    ]
+
+    lr_prev_grid = torchvision.utils.make_grid(lr[random, 2, ...], nrow=n_examples, padding=5)[
         var, ...
     ]
 
@@ -84,21 +88,28 @@ def gen_grid_images(
     ax = make_subfig(
         subfigs,
         0,
-        f"Low Resolution Fields Min: {lr_grid.min()} Max: {lr_grid.max()}",
+        f"Uas Min: {lr_grid.min()} Max: {lr_grid.max()}",
         lr_grid,
         cmap,
     )
     ax = make_subfig(
         subfigs,
         1,
-        f"Significant Wave Height Fields Min: {sr_grid.min()} Max: {sr_grid.max()}",
-        sr_grid,
+        f"Uas t-2days Min: {lr_prev_grid.min()} Max: {lr_prev_grid.max()}",
+        lr_prev_grid,
         cmap,
     )
     ax = make_subfig(
         subfigs,
         2,
-        f"Ground Truth hs Fields Min: {hr_grid.min()} Max: {hr_grid.max()}",
+        f"H_s Fields Min: {sr_grid.min()} Max: {sr_grid.max()}",
+        sr_grid,
+        cmap,
+    )
+    ax = make_subfig(
+        subfigs,
+        3,
+        f"WW3 hs Fields Min: {hr_grid.min()} Max: {hr_grid.max()}",
         hr_grid,
         cmap,
     )

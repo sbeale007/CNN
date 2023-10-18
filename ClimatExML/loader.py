@@ -103,12 +103,13 @@ class ClimatExMLLoader(Dataset):
 
 class ClimatExMLData(pl.LightningDataModule):
     def __init__(
-        self, data_glob: dict = None, num_workers: int = 24, batch_size: int = None
+        self, data_glob: dict = None, num_workers: int = 24, batch_size: int = None, drop_last=True,
     ):
         super().__init__()
         self.data_glob = data_glob
         self.batch_size = batch_size
         self.num_workers = num_workers
+        drop_last=True
 
     def setup(self, stage: str):
         self.test_data = ClimatExMLLoader(
@@ -137,10 +138,11 @@ class ClimatExMLData(pl.LightningDataModule):
         return (
             DataLoader(
                 self.test_data,
-                batch_size=self.batch_size,
+                batch_size=22,
                 num_workers=self.num_workers,
                 shuffle=False,
                 pin_memory=True,
+                drop_last=True,
             ),
         )
     
@@ -149,9 +151,10 @@ class ClimatExMLData(pl.LightningDataModule):
         return (
             DataLoader(
                 self.validation_data,
-                batch_size=self.batch_size,
+                batch_size=1,
                 num_workers=self.num_workers,
                 shuffle=False,
                 pin_memory=True,
+                drop_last=True
             ),
         )

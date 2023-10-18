@@ -156,7 +156,7 @@ class SuperResolutionWGANGP(pl.LightningModule):
                         lr,
                         hr,
                         self.batch_size,
-                        n_examples=3,
+                        n_examples=4,
                         cmap="viridis",
                     ),
                     f"train_images_{var}.png",
@@ -193,7 +193,7 @@ class SuperResolutionWGANGP(pl.LightningModule):
                         lr,
                         hr,
                         self.batch_size,
-                        n_examples=3,
+                        n_examples=4,
                         cmap="viridis",
                     ),
                     f"test_images_{var}.png",
@@ -216,7 +216,7 @@ class SuperResolutionWGANGP(pl.LightningModule):
             }
         )   
 
-        if (batch_idx + 1) % 50 == 0:
+        if (batch_idx + 1) % 40 == 0:
             fig = plt.figure(figsize=(30, 10))
             for var in range(sr.shape[1]):
                 self.logger.experiment.log_figure(
@@ -227,8 +227,8 @@ class SuperResolutionWGANGP(pl.LightningModule):
                         self.G,
                         lr,
                         hr,
-                        self.batch_size,
-                        n_examples=3,
+                        batch_size=1,
+                        n_examples=4,
                         cmap="viridis",
                     ),
                     f"validation_images_{var}.png",
