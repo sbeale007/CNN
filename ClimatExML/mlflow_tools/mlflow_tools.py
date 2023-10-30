@@ -72,9 +72,9 @@ def gen_grid_images(
         var, ...
     ]
 
-    lr_prev_grid = torchvision.utils.make_grid(lr[random, 2, ...], nrow=n_examples, padding=5)[
-        var, ...
-    ]
+    # lr_prev_grid = torchvision.utils.make_grid(lr[random, 1, ...], nrow=n_examples, padding=5)[
+    #     var, ...
+    # ]
 
     sr_grid = torchvision.utils.make_grid(sr, nrow=n_examples)[var, ...]
 
@@ -92,23 +92,23 @@ def gen_grid_images(
         lr_grid,
         cmap,
     )
+    # ax = make_subfig(
+    #     subfigs,
+    #     1,
+    #     f"vas Min: {lr_prev_grid.min()} Max: {lr_prev_grid.max()}",
+    #     lr_prev_grid,
+    #     cmap,
+    # )
     ax = make_subfig(
         subfigs,
         1,
-        f"Uas t-2days Min: {lr_prev_grid.min()} Max: {lr_prev_grid.max()}",
-        lr_prev_grid,
-        cmap,
-    )
-    ax = make_subfig(
-        subfigs,
-        2,
         f"H_s Fields Min: {sr_grid.min()} Max: {sr_grid.max()}",
         sr_grid,
         cmap,
     )
     ax = make_subfig(
         subfigs,
-        3,
+        2,
         f"WW3 hs Fields Min: {hr_grid.min()} Max: {hr_grid.max()}",
         hr_grid,
         cmap,

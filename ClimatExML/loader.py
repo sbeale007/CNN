@@ -138,7 +138,7 @@ class ClimatExMLData(pl.LightningDataModule):
         return (
             DataLoader(
                 self.test_data,
-                batch_size=22,
+                batch_size=self.batch_size,
                 num_workers=self.num_workers,
                 shuffle=False,
                 pin_memory=True,
@@ -151,7 +151,7 @@ class ClimatExMLData(pl.LightningDataModule):
         return (
             DataLoader(
                 self.validation_data,
-                batch_size=1,
+                batch_size=self.batch_size,
                 num_workers=self.num_workers,
                 shuffle=False,
                 pin_memory=True,
