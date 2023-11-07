@@ -95,8 +95,8 @@ class Generator(nn.Module):
         fine_dims,
         channels,
         n_predictands=1,
-        num_res_blocks=10,
-        num_upsample=1,
+        num_res_blocks=16,
+        num_upsample=3,
     ):
         super(Generator, self).__init__()
 
@@ -186,7 +186,7 @@ class Generator_hr_cov(nn.Module):
         self.conv3 = nn.Sequential(
             # nn.Conv2d(filters * 2, filters + 1, kernel_size=3, stride=1, padding=1),
             # ResidualInResidualDenseBlock(filters + 1),
-            nn.Conv2d(filters * 2, filters + 1, kernel_size=3, stride=1, padding=1),
+            nn.Conv2d(filters * 3, filters + 1, kernel_size=3, stride=1, padding=1),
             nn.LeakyReLU(),
             nn.Conv2d(filters + 1, n_predictands, kernel_size=3, stride=1, padding=1),
         )
@@ -208,9 +208,9 @@ class Generator_lr_global(nn.Module):
         channels,
         channels_hr_cov=1,
         n_predictands=1,
-        num_res_blocks=16,
+        num_res_blocks=10,
         num_res_blocks_fine=1,
-        num_upsample=3,
+        num_upsample=2,
     ):
         super(Generator_lr_global, self).__init__()
         self.fine_res = fine_dims
@@ -264,15 +264,15 @@ class Generator_lr_global(nn.Module):
 
     def forward(self, x_small, x_large, x_fine):
         out = self.LR_pre(x_small)  ## LR branch
-        outc = self.upsampling(out)
+        outs = self.upsampling(out)
         out = self.LR_large(x_large)
         outl = self.upsampling(out)
         outf = self.HR_pre(x_fine)  ## HR branch
-        # outsc = torch.cat((outc, outl, outf), 1)  ##combine
-        # print(outsc.shape)
-        # outsf = torch.cat((outl, outf), 1)
-        # print(outsf.shape)
-        out = torch.cat((outc, outl, outf), 1)
+        # COMBINING
+        # outsf = torch.cat((outs, outf), 1)
+        # outlf = torch.cat((outl, outf), 1)
+        # out = torch.cat((outsf, outlf), 1)
+        out = torch.cat((outs, outl, outf), 1)
         out = self.conv3(out)
         return out
 

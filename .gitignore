@@ -5,3 +5,4 @@ __pycache__
 ClimatExML/__pycache__
 ClimatExML/mlflow_tools/__pycache__
 ocean_slay/
+nohup.out

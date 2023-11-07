@@ -1,5 +1,5 @@
 hyperparameters:
-  batch_size: 32
+  batch_size: 73
   # Adam Optimizer
   learning_rate: 0.00025
   b1: 0.9
@@ -7,7 +7,7 @@ hyperparameters:
   gp_lambda: 10
   alpha: 50.0
   n_critic: 5
-  max_epochs: 1
+  max_epochs: 150
 
 # mlflow server --backend-store-uri sqlite:///climatexdb.sqlite --default-artifact-root /home/sbeale/climate_ml_artifacts --port 8080
 tracking:
@@ -19,32 +19,46 @@ tracking:
   log_every_n_steps: 100
 
 training:
-  num_workers: 16
+  num_workers: 20
   precision: "32"
   accelerator: "gpu"
 
 data:
   lr_shape:
     - 2 # n_covariates
-    - 64 # x size
-    - 64 # y size 
+    - 32 # x size
+    - 32 # y size
+  lr_large_shape: 
+    - 2 # n_covariates
+    - 32 
+    - 32
   hr_shape:
     - 1 # n_predictands
     - 128 # x size
     - 128 # y size
   files:
     lr_test:
-      - /home/sbeale/95_14_glob_w_hawaii_hs/test/uas/lr/*.pt
-      - /home/sbeale/95_14_glob_w_hawaii_hs/test/vas/lr/*.pt
+      - /home/sbeale/95_14_glob_small_in_small_out_southamerica/test/uas/lr/*.pt
+      - /home/sbeale/95_14_glob_small_in_small_out_southamerica/test/vas/lr/*.pt
     lr_train:
-      - /home/sbeale/95_14_glob_w_hawaii_hs/train/uas/lr/*.pt
-      - /home/sbeale/95_14_glob_w_hawaii_hs/train/vas/lr/*.pt
+      - /home/sbeale/95_14_glob_small_in_small_out_southamerica/train/uas/lr/*.pt
+      - /home/sbeale/95_14_glob_small_in_small_out_southamerica/train/vas/lr/*.pt
     lr_validation:
-      - /home/sbeale/95_14_glob_w_hawaii_hs/validation/uas/lr/*.pt
-      - /home/sbeale/95_14_glob_w_hawaii_hs/validation/vas/lr/*.pt
+      - /home/sbeale/95_14_glob_small_in_small_out_southamerica/validation/uas/lr/*.pt
+      - /home/sbeale/95_14_glob_small_in_small_out_southamerica/validation/vas/lr/*.pt
+    lr_large_test:
+      - /home/sbeale/95_14_glob_small_in_small_out_southamerica/test/uas/lr_big/*.pt
+      - /home/sbeale/95_14_glob_small_in_small_out_southamerica/test/vas/lr_big/*.pt
+    lr_large_train:
+      - /home/sbeale/95_14_glob_small_in_small_out_southamerica/train/uas/lr_big/*.pt
+      - /home/sbeale/95_14_glob_small_in_small_out_southamerica/train/vas/lr_big/*.pt
+    lr_large_validation:
+      - /home/sbeale/95_14_glob_small_in_small_out_southamerica/validation/uas/lr_big/*.pt
+      - /home/sbeale/95_14_glob_small_in_small_out_southamerica/validation/vas/lr_big/*.pt
     hr_test:
-      - /home/sbeale/95_14_glob_w_hawaii_hs/test/hs/hr/*.pt
+      - /home/sbeale/95_14_glob_small_in_small_out_southamerica/test/hs/hr/*.pt
     hr_train:
-      - /home/sbeale/95_14_glob_w_hawaii_hs/train/hs/hr/*.pt
+      - /home/sbeale/95_14_glob_small_in_small_out_southamerica/train/hs/hr/*.pt
     hr_validation:
-      - /home/sbeale/95_14_glob_w_hawaii_hs/validation/hs/hr/*.pt
+      - /home/sbeale/95_14_glob_small_in_small_out_southamerica/validation/hs/hr/*.pt
+    hr_cov: /home/sbeale/95_14_glob_small_in_small_out_southamerica/test/MAPSTA/hr/MAPSTA_0.pt

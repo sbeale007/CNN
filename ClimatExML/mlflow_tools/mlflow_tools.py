@@ -50,8 +50,12 @@ def gen_grid_images(
     fig,
     G,
     lr: torch.Tensor,
+    lr_large: torch.Tensor,
     hr: torch.Tensor,
+    hr_cov: torch.Tensor,
     batch_size: int,
+    use_lr_large: bool,
+    use_hr_cov: bool,
     n_examples: int = 3,
     cmap="viridis",
 ) -> None:
@@ -66,9 +70,18 @@ def gen_grid_images(
     """
     torch.manual_seed(0)
     random = torch.randint(0, batch_size, (n_examples,))
-
-    sr = G(lr[random, ...])
+    if(use_lr_large):
+        sr = G(lr[random, ...],lr_large[random,...],hr_cov[random,...])
+    elif(use_hr_cov):
+        sr = G(lr[random, ...],hr_cov[random,...])
+    else:
+        sr = G(lr[random, ...])
+        
     lr_grid = torchvision.utils.make_grid(lr[random, ...], nrow=n_examples, padding=5)[
+        var, ...
+    ]
+
+    lr_large_grid = torchvision.utils.make_grid(lr_large[random, ...], nrow=n_examples, padding=5)[
         var, ...
     ]
 
@@ -91,14 +104,21 @@ def gen_grid_images(
     ax = make_subfig(
         subfigs,
         1,
-        f"Significant Wave Height Fields Min: {sr_grid.min()} Max: {sr_grid.max()}",
-        sr_grid,
+        f"Low Resolution Larger Fields Min: {lr_large_grid.min()} Max: {lr_large_grid.max()}",
+        lr_large_grid,
         cmap,
     )
     ax = make_subfig(
         subfigs,
         2,
-        f"Ground Truth hs Fields Min: {hr_grid.min()} Max: {hr_grid.max()}",
+        f"Super Resolved Fields Min: {sr_grid.min()} Max: {sr_grid.max()}",
+        sr_grid,
+        cmap,
+    )
+    ax = make_subfig(
+        subfigs,
+        3,
+        f"Ground Truth Fields Min: {hr_grid.min()} Max: {hr_grid.max()}",
         hr_grid,
         cmap,
     )
