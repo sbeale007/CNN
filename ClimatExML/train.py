@@ -7,6 +7,7 @@ from pytorch_lightning.loggers import MLFlowLogger
 import mlflow
 import logging
 import hydra
+import os 
 
 
 @hydra.main(config_path="conf", config_name="config", version_base='1.1')
@@ -25,18 +26,22 @@ def main(cfg: dict):
     mlflow.set_experiment(cfg.tracking.experiment_name)
     logging.info(f"Experiment ID: {experiment.experiment_id}")
 
+    def get_key(fp):
+        filename = os.path.splitext(os.path.basename(fp))[0]
+        int_part = int(filename.split('_')[1])
+        return int(int_part)
+
     with mlflow.start_run() as run:
         data = {
-            "lr_train": [sorted(glob.glob(path)) for path in cfg.data.files.lr_train],
-            "lr_large_train": [sorted(glob.glob(path)) for path in cfg.data.files.lr_large_train],
-            "hr_train": [sorted(glob.glob(path)) for path in cfg.data.files.hr_train],
-            "lr_test": [sorted(glob.glob(path)) for path in cfg.data.files.lr_test],
-            "lr_large_test": [sorted(glob.glob(path)) for path in cfg.data.files.lr_large_test],
-            "hr_test": [sorted(glob.glob(path)) for path in cfg.data.files.hr_test],
-            "lr_validation": [sorted(glob.glob(path)) for path in cfg.data.files.lr_validation],
-            "lr_large_validation": [sorted(glob.glob(path)) for path in cfg.data.files.lr_large_validation],
-            "hr_validation": [sorted(glob.glob(path)) for path in cfg.data.files.hr_validation],
-            "hr_cov": cfg.data.files.hr_cov,
+            "lr_train": [sorted(glob.glob(path), key=get_key) for path in cfg.data.files.lr_train],
+            "lr_large_train": [sorted(glob.glob(path), key=get_key) for path in cfg.data.files.lr_large_train],
+            "hr_train": [sorted(glob.glob(path), key=get_key) for path in cfg.data.files.hr_train],
+            "lr_test": [sorted(glob.glob(path), key=get_key) for path in cfg.data.files.lr_test],
+            "lr_large_test": [sorted(glob.glob(path), key=get_key) for path in cfg.data.files.lr_large_test],
+            "hr_test": [sorted(glob.glob(path), key=get_key) for path in cfg.data.files.hr_test],
+            "lr_validation": [sorted(glob.glob(path), key=get_key) for path in cfg.data.files.lr_validation],
+            "lr_large_validation": [sorted(glob.glob(path), key=get_key) for path in cfg.data.files.lr_large_validation],
+            "hr_validation": [sorted(glob.glob(path), key=get_key) for path in cfg.data.files.hr_validation],
         }
 
         clim_data = ClimatExMLDataHRCov(
@@ -81,7 +86,7 @@ def main(cfg: dict):
         
         trainer.fit(srmodel, datamodule=clim_data)
 
-        trainer.test(datamodule=clim_data)
+        # trainer.test(datamodule=clim_data)
 
 
 if __name__ == "__main__":

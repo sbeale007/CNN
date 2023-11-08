@@ -209,7 +209,6 @@ class Generator_lr_global(nn.Module):
         channels_hr_cov=1,
         n_predictands=1,
         num_res_blocks=10,
-        num_res_blocks_fine=1,
         num_upsample=2,
     ):
         super(Generator_lr_global, self).__init__()
@@ -225,9 +224,6 @@ class Generator_lr_global(nn.Module):
         self.res_blocks = nn.Sequential(
             *[ResidualInResidualDenseBlock(filters) for _ in range(num_res_blocks)]
         )
-        self.res_blocksf = nn.Sequential(
-            *[ResidualInResidualDenseBlock(filters) for _ in range(num_res_blocks_fine)]
-        )
         self.res_blocksl = nn.Sequential(
             *[ResidualInResidualDenseBlock(filters) for _ in range(num_res_blocks)]
         )
@@ -237,22 +233,27 @@ class Generator_lr_global(nn.Module):
         self.LR_pre = nn.Sequential(
             self.conv1, ShortcutBlock(nn.Sequential(self.res_blocks, self.conv2))
         )
-        self.HR_pre = nn.Sequential(
-            self.conv1f, ShortcutBlock(nn.Sequential(self.res_blocksf, self.conv2))
-        )
         self.LR_large = nn.Sequential(
             self.conv1l, ShortcutBlock(nn.Sequential(self.res_blocksl, self.conv2))
         )
 
         # Upsampling layers
-        upsample_layers = []
+        upsample_layers_s = []
         for _ in range(num_upsample):
-            upsample_layers += [
+            upsample_layers_s += [
                 nn.Conv2d(filters, filters * 4, kernel_size=3, stride=1, padding=1),
                 nn.LeakyReLU(),
                 nn.PixelShuffle(upscale_factor=2),
             ]
-        self.upsampling = nn.Sequential(*upsample_layers)
+        self.upsampling_s = nn.Sequential(*upsample_layers_s)
+        upsample_layers_l = []
+        for _ in range(1):
+            upsample_layers_l += [
+                nn.Conv2d(filters, filters * 4, kernel_size=3, stride=1, padding=1),
+                nn.LeakyReLU(),
+                nn.PixelShuffle(upscale_factor=2),
+            ]
+        self.upsampling_l = nn.Sequential(*upsample_layers_l)
         # Final output block
         self.conv3 = nn.Sequential(
             # nn.Conv2d(filters * 2, filters + 1, kernel_size=3, stride=1, padding=1),
@@ -262,18 +263,25 @@ class Generator_lr_global(nn.Module):
             nn.Conv2d(filters + 1, n_predictands, kernel_size=3, stride=1, padding=1),
         )
 
-    def forward(self, x_small, x_large, x_fine):
+    def forward(self, x_small, x_large):
         out = self.LR_pre(x_small)  ## LR branch
-        outs = self.upsampling(out)
+        print(out.shape)
+        outs = self.upsampling_s(out)
+        print(outs.shape)
         out = self.LR_large(x_large)
-        outl = self.upsampling(out)
-        outf = self.HR_pre(x_fine)  ## HR branch
+        print(out.shape)
+        outl = self.upsampling_l(out)
+        print(outl.shape)
+        # outl = self.upsampling(out)
+        # outf = self.HR_pre(x_fine)  ## HR branch
         # COMBINING
         # outsf = torch.cat((outs, outf), 1)
         # outlf = torch.cat((outl, outf), 1)
         # out = torch.cat((outsf, outlf), 1)
-        out = torch.cat((outs, outl, outf), 1)
+        out = torch.cat((outs, outl), 1)
+        print(outs.shape, outl.shape, out.shape)
         out = self.conv3(out)
+        print(out.shape)
         return out
 
 

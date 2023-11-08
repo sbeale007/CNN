@@ -198,11 +198,8 @@ class SuperResolutionWGANGP(pl.LightningModule):
     def test_step(self, batch, batch_idx):
         # if (batch_idx + 1) % self.log_every_n_steps == 0:
         if self.lr_large_shape is not None:
-            lr, lr_large, hr, hr_cov = batch
-            sr = self.G(lr, lr_large, hr_cov)
-        elif self.hr_cov_shape is not None:
-            lr, hr, hr_cov = batch
-            sr = self.G(lr, hr_cov)
+            lr, lr_large, hr = batch
+            sr = self.G(lr, lr_large,)
         else:
             lr, hr = batch
             sr = self.G(lr)
@@ -240,11 +237,8 @@ class SuperResolutionWGANGP(pl.LightningModule):
     def validation_step(self, batch, batch_idx):
         # if (batch_idx + 1) % self.log_every_n_steps == 0:
         if self.lr_large_shape is not None:
-            lr, lr_large, hr, hr_cov = batch
-            sr = self.G(lr, lr_large, hr_cov)
-        elif self.hr_cov_shape is not None:
-            lr, hr, hr_cov = batch
-            sr = self.G(lr, hr_cov)
+            lr, lr_large, hr = batch
+            sr = self.G(lr, lr_large)
         else:
             lr, hr = batch[0]
             sr = self.G(lr)
@@ -294,13 +288,11 @@ class SuperResolutionWGANGP(pl.LightningModule):
         return opt_g
     
     def forward(self, x):
-        x = torch.split(x, [2,2,16], dim=1)
+        x = torch.split(x, [1,4], dim=0)
         lr = x[0]
         lr_large = x[1]
-        hr_cov = x[2]
-        batch_size = lr.shape[0]
-        hr_cov = hr_cov.reshape([batch_size, 1, 128,128])
-        y = self.G(lr, lr_large, hr_cov)
+        lr_large = lr_large.reshape((1,2,64,64))
+        y = self.G(lr, lr_large)
         return y
 
 

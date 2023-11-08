@@ -1,5 +1,5 @@
 hyperparameters:
-  batch_size: 73
+  batch_size: 29
   # Adam Optimizer
   learning_rate: 0.00025
   b1: 0.9
@@ -7,7 +7,7 @@ hyperparameters:
   gp_lambda: 10
   alpha: 50.0
   n_critic: 5
-  max_epochs: 1
+  max_epochs: 50
 
 # mlflow server --backend-store-uri sqlite:///climatexdb.sqlite --default-artifact-root /home/sbeale/climate_ml_artifacts --port 8080
 tracking:
@@ -19,7 +19,7 @@ tracking:
   log_every_n_steps: 100
 
 training:
-  num_workers: 16
+  num_workers: 20
   precision: "32"
   accelerator: "gpu"
 
@@ -30,35 +30,34 @@ data:
     - 32 # y size
   lr_large_shape: 
     - 2 # n_covariates
-    - 32 
-    - 32
+    - 64 
+    - 64
   hr_shape:
     - 1 # n_predictands
     - 128 # x size
     - 128 # y size
   files:
     lr_test:
-      - /home/sbeale/95_14_glob_small_in_small_out_hawaii/test/uas/lr/*.pt
-      - /home/sbeale/95_14_glob_small_in_small_out_hawaii/test/vas/lr/*.pt
+      - /home/sbeale/95_14_small_in_small_out_hawaii/test/uas/lr_2day/*.pt
+      - /home/sbeale/95_14_small_in_small_out_hawaii/test/vas/lr_2day/*.pt
     lr_train:
-      - /home/sbeale/95_14_glob_small_in_small_out_hawaii/train/uas/lr/*.pt
-      - /home/sbeale/95_14_glob_small_in_small_out_hawaii/train/vas/lr/*.pt
+      - /home/sbeale/95_14_small_in_small_out_hawaii/train/uas/lr_2day/*.pt
+      - /home/sbeale/95_14_small_in_small_out_hawaii/train/vas/lr_2day/*.pt
     lr_validation:
-      - /home/sbeale/95_14_glob_small_in_small_out_hawaii/validation/uas/lr/*.pt
-      - /home/sbeale/95_14_glob_small_in_small_out_hawaii/validation/vas/lr/*.pt
+      - /home/sbeale/95_14_small_in_small_out_hawaii/validation/uas/lr_2day/*.pt
+      - /home/sbeale/95_14_small_in_small_out_hawaii/validation/vas/lr_2day/*.pt
     lr_large_test:
-      - /home/sbeale/95_14_glob_small_in_small_out_hawaii/test/uas/lr_big/*.pt
-      - /home/sbeale/95_14_glob_small_in_small_out_hawaii/test/vas/lr_big/*.pt
+      - /home/sbeale/95_14_glob_w_hawaii_hs/test/uas/lr_2day_prev/*.pt
+      - /home/sbeale/95_14_glob_w_hawaii_hs/test/vas/lr_2day_prev/*.pt
     lr_large_train:
-      - /home/sbeale/95_14_glob_small_in_small_out_hawaii/train/uas/lr_big/*.pt
-      - /home/sbeale/95_14_glob_small_in_small_out_hawaii/train/vas/lr_big/*.pt
+      - /home/sbeale/95_14_glob_w_hawaii_hs/train/uas/lr_2day_prev/*.pt
+      - /home/sbeale/95_14_glob_w_hawaii_hs/train/vas/lr_2day_prev/*.pt
     lr_large_validation:
-      - /home/sbeale/95_14_glob_small_in_small_out_hawaii/validation/uas/lr_big/*.pt
-      - /home/sbeale/95_14_glob_small_in_small_out_hawaii/validation/vas/lr_big/*.pt
+      - /home/sbeale/95_14_glob_w_hawaii_hs/validation/uas/lr_2day_prev/*.pt
+      - /home/sbeale/95_14_glob_w_hawaii_hs/validation/vas/lr_2day_prev/*.pt
     hr_test:
-      - /home/sbeale/95_14_glob_small_in_small_out_hawaii/test/hs/hr/*.pt
+      - /home/sbeale/95_14_small_in_small_out_hawaii/test/hs/hr_2day/*.pt
     hr_train:
-      - /home/sbeale/95_14_glob_small_in_small_out_hawaii/train/hs/hr/*.pt
+      - /home/sbeale/95_14_small_in_small_out_hawaii/train/hs/hr_2day/*.pt
     hr_validation:
-      - /home/sbeale/95_14_glob_small_in_small_out_hawaii/validation/hs/hr/*.pt
-    hr_cov: /home/sbeale/95_14_glob_small_in_small_out_hawaii/test/MAPSTA/hr/MAPSTA_0.pt
+      - /home/sbeale/95_14_small_in_small_out_hawaii/validation/hs/hr_2day/*.pt
