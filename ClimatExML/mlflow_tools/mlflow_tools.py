@@ -52,10 +52,8 @@ def gen_grid_images(
     lr: torch.Tensor,
     lr_large: torch.Tensor,
     hr: torch.Tensor,
-    hr_cov: torch.Tensor,
     batch_size: int,
     use_lr_large: bool,
-    use_hr_cov: bool,
     n_examples: int = 3,
     cmap="viridis",
 ) -> None:
@@ -71,9 +69,7 @@ def gen_grid_images(
     torch.manual_seed(0)
     random = torch.randint(0, batch_size, (n_examples,))
     if(use_lr_large):
-        sr = G(lr[random, ...],lr_large[random,...],hr_cov[random,...])
-    elif(use_hr_cov):
-        sr = G(lr[random, ...],hr_cov[random,...])
+        sr = G(lr[random, ...],lr_large[random,...])
     else:
         sr = G(lr[random, ...])
         
