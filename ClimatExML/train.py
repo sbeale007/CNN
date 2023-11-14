@@ -7,6 +7,7 @@ from pytorch_lightning.loggers import MLFlowLogger
 import mlflow
 import logging
 import hydra
+import os 
 
 
 @hydra.main(config_path="conf", config_name="config", version_base='1.1')
@@ -25,14 +26,19 @@ def main(cfg: dict):
     mlflow.set_experiment(cfg.tracking.experiment_name)
     logging.info(f"Experiment ID: {experiment.experiment_id}")
 
+    def get_key(fp):
+        filename = os.path.splitext(os.path.basename(fp))[0]
+        int_part = int(filename.split('_')[1])
+        return int(int_part)
+
     with mlflow.start_run() as run:
         data = {
-            "lr_train": [sorted(glob.glob(path)) for path in cfg.data.files.lr_train],
-            "hr_train": [sorted(glob.glob(path)) for path in cfg.data.files.hr_train],
-            "lr_test": [sorted(glob.glob(path)) for path in cfg.data.files.lr_test],
-            "hr_test": [sorted(glob.glob(path)) for path in cfg.data.files.hr_test],
-            "lr_validation": [sorted(glob.glob(path)) for path in cfg.data.files.lr_validation],
-            "hr_validation": [sorted(glob.glob(path)) for path in cfg.data.files.hr_validation],
+            "lr_train": [sorted(glob.glob(path), key=get_key) for path in cfg.data.files.lr_train],
+            "hr_train": [sorted(glob.glob(path), key=get_key) for path in cfg.data.files.hr_train],
+            "lr_test": [sorted(glob.glob(path), key=get_key) for path in cfg.data.files.lr_test],
+            "hr_test": [sorted(glob.glob(path), key=get_key) for path in cfg.data.files.hr_test],
+            "lr_validation": [sorted(glob.glob(path), key=get_key) for path in cfg.data.files.lr_validation],
+            "hr_validation": [sorted(glob.glob(path), key=get_key) for path in cfg.data.files.hr_validation],
         }
 
         clim_data = ClimatExMLData(
