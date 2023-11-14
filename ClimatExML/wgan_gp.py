@@ -65,13 +65,10 @@ class SuperResolutionWGANGP(pl.LightningModule):
         n_predictands, hr_dim, _ = self.hr_shape
         # DEBUG coarse_dim_n, fine_dim_n, n_covariates, n_predictands
 
-        if self.lr_large_shape is not None:
-            n_covariates = lr_large_shape[0]
-            self.G = Generator_lr_global(
+        n_covariates = lr_large_shape[0]
+        self.G = Generator_lr_global(
                 lr_dim, hr_dim, n_covariates, n_predictands
-            )
-        else:
-            self.G = Generator(lr_dim, hr_dim, n_covariates, n_predictands)
+        )
 
         self.automatic_optimization = False
 
@@ -120,12 +117,8 @@ class SuperResolutionWGANGP(pl.LightningModule):
         return self.gp_lambda * ((gradients_norm - 1) ** 2).mean()
 
     def training_step(self, batch, batch_idx):
-        if self.lr_large_shape is not None:
-            lr, lr_large, hr = batch[0]
-            sr = self.G(lr, lr_large)
-        else:
-            lr, hr = batch[0]
-            sr = self.G(lr)
+        lr, lr_large, hr = batch[0]
+        sr = self.G(lr, lr_large)
 
         # train generator
         g_opt = self.optimizers()
@@ -185,12 +178,9 @@ class SuperResolutionWGANGP(pl.LightningModule):
 
     def test_step(self, batch, batch_idx):
         # if (batch_idx + 1) % self.log_every_n_steps == 0:
-        if self.lr_large_shape is not None:
-            lr, lr_large, hr = batch
-            sr = self.G(lr, lr_large)
-        else:
-            lr, hr = batch
-            sr = self.G(lr)
+        lr, lr_large, hr = batch
+        sr = self.G(lr, lr_large)
+            
         self.log_dict(
             {
                 "Test MAE": content_loss(sr, hr),
@@ -222,12 +212,10 @@ class SuperResolutionWGANGP(pl.LightningModule):
 
     def validation_step(self, batch, batch_idx):
         # if (batch_idx + 1) % self.log_every_n_steps == 0:
-        if self.lr_large_shape is not None:
-            lr, lr_large, hr = batch
-            sr = self.G(lr, lr_large)
-        else:
-            lr, hr = batch[0]
-            sr = self.G(lr)
+        lr, lr_large, hr = batch
+
+        sr = self.G(lr, lr_large)
+        
         val_loss = content_loss(
             sr, hr
         )

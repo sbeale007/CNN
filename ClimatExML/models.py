@@ -254,34 +254,20 @@ class Generator_lr_global(nn.Module):
                 nn.PixelShuffle(upscale_factor=2),
             ]
         self.upsampling_l = nn.Sequential(*upsample_layers_l)
-        # Final output block
+        # Final output block, check size
         self.conv3 = nn.Sequential(
-            # nn.Conv2d(filters * 2, filters + 1, kernel_size=3, stride=1, padding=1),
-            # ResidualInResidualDenseBlock(filters + 1),
-            nn.Conv2d(filters * 3, filters + 1, kernel_size=3, stride=1, padding=1),
+            nn.Conv2d(filters * 2, filters + 1, kernel_size=3, stride=1, padding=1),
             nn.LeakyReLU(),
             nn.Conv2d(filters + 1, n_predictands, kernel_size=3, stride=1, padding=1),
         )
 
     def forward(self, x_small, x_large):
-        out = self.LR_pre(x_small)  ## LR branch
-        print(out.shape)
+        out = self.LR_pre(x_small)  ## small branch
         outs = self.upsampling_s(out)
-        print(outs.shape)
-        out = self.LR_large(x_large)
-        print(out.shape)
+        out = self.LR_large(x_large) ## large branch
         outl = self.upsampling_l(out)
-        print(outl.shape)
-        # outl = self.upsampling(out)
-        # outf = self.HR_pre(x_fine)  ## HR branch
-        # COMBINING
-        # outsf = torch.cat((outs, outf), 1)
-        # outlf = torch.cat((outl, outf), 1)
-        # out = torch.cat((outsf, outlf), 1)
-        out = torch.cat((outs, outl), 1)
-        print(outs.shape, outl.shape, out.shape)
+        out = torch.cat((outs, outl), 1) ## combining branches
         out = self.conv3(out)
-        print(out.shape)
         return out
 
 
