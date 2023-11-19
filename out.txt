@@ -1,0 +1,83 @@
+/home/sbeale/ocean_waves/lib/python3.10/site-packages/hydra/_internal/hydra.py:119: UserWarning: Future Hydra versions will no longer change working directory at job runtime by default.
+See https://hydra.cc/docs/1.2/upgrades/1.1_to_1.2/changes_to_job_working_dir/ for more information.
+  ret = run_job(
+2023/11/14 16:02:31 WARNING mlflow.utils.autologging_utils: You are using an unsupported version of pytorch. If you encounter errors during autologging, try upgrading / downgrading pytorch to a supported version, or try upgrading MLflow.
+[2023-11-14 16:02:31,250][root][INFO] - Tracking URI: sqlite:////home/sbeale/climate_ml_artifacts/climatexdb.sqlite
+2023/11/14 16:02:31 INFO mlflow.store.db.utils: Creating initial MLflow database tables...
+2023/11/14 16:02:31 INFO mlflow.store.db.utils: Updating database tables
+INFO  [alembic.runtime.migration] Context impl SQLiteImpl.
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+INFO  [alembic.runtime.migration] Context impl SQLiteImpl.
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+IPU available: False, using: 0 IPUs
+HPU available: False, using: 0 HPUs
+2023/11/14 16:02:31 WARNING mlflow.utils.autologging_utils: MLflow autologging encountered a warning: "/home/sbeale/ocean_waves/lib/python3.10/site-packages/mlflow/pytorch/_lightning_autolog.py:351: UserWarning: Autologging is known to be compatible with pytorch-lightning versions between 1.0.5 and 2.0.2 and may not succeed with packages outside this range."
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+
+  | Name | Type                | Params
+---------------------------------------------
+0 | G    | Generator_lr_global | 8.4 M 
+---------------------------------------------
+8.4 M     Trainable params
+0         Non-trainable params
+8.4 M     Total params
+33.780    Total estimated model params size (MB)
+Sanity Checking: 0it [00:00, ?it/s]Sanity Checking:   0%|          | 0/2 [00:00<?, ?it/s]Sanity Checking DataLoader 0:   0%|          | 0/2 [00:00<?, ?it/s]Sanity Checking DataLoader 0:  50%|█████     | 1/2 [00:00<00:00,  1.68it/s]Sanity Checking DataLoader 0: 100%|██████████| 2/2 [00:00<00:00,  2.90it/s]                                                                           Training: 0it [00:00, ?it/s]Training:   0%|          | 0/1611 [00:00<?, ?it/s]Epoch 0:   0%|          | 0/1611 [00:00<?, ?it/s] Epoch 0:   0%|          | 1/1611 [00:00<20:05,  1.34it/s]Epoch 0:   0%|          | 1/1611 [00:00<20:06,  1.33it/s, v_num=5c90]Epoch 0:   0%|          | 2/1611 [00:00<13:18,  2.02it/s, v_num=5c90]Epoch 0:   0%|          | 2/1611 [00:00<13:18,  2.02it/s, v_num=5c90]Epoch 0:   0%|          | 3/1611 [00:01<11:02,  2.43it/s, v_num=5c90]Epoch 0:   0%|          | 3/1611 [00:01<11:02,  2.43it/s, v_num=5c90]Epoch 0:   0%|          | 4/1611 [00:01<09:54,  2.70it/s, v_num=5c90]Epoch 0:   0%|          | 4/1611 [00:01<09:54,  2.70it/s, v_num=5c90]Epoch 0:   0%|          | 5/1611 [00:01<09:13,  2.90it/s, v_num=5c90]Epoch 0:   0%|          | 5/1611 [00:01<09:13,  2.90it/s, v_num=5c90]Epoch 0:   0%|          | 6/1611 [00:01<08:46,  3.05it/s, v_num=5c90]Epoch 0:   0%|          | 6/1611 [00:01<08:46,  3.05it/s, v_num=5c90]Epoch 0:   0%|          | 7/1611 [00:02<08:26,  3.17it/s, v_num=5c90]Epoch 0:   0%|          | 7/1611 [00:02<08:26,  3.17it/s, v_num=5c90]Epoch 0:   0%|          | 8/1611 [00:02<08:11,  3.26it/s, v_num=5c90]Epoch 0:   0%|          | 8/1611 [00:02<08:11,  3.26it/s, v_num=5c90]Epoch 0:   1%|          | 9/1611 [00:02<08:00,  3.33it/s, v_num=5c90]Epoch 0:   1%|          | 9/1611 [00:02<08:00,  3.33it/s, v_num=5c90]Epoch 0:   1%|          | 10/1611 [00:02<07:51,  3.40it/s, v_num=5c90]Epoch 0:   1%|          | 10/1611 [00:02<07:51,  3.40it/s, v_num=5c90]/home/sbeale/ocean_waves/lib/python3.10/site-packages/pytorch_lightning/trainer/call.py:52: UserWarning: Detected KeyboardInterrupt, attempting graceful shutdown...
+  rank_zero_warn("Detected KeyboardInterrupt, attempting graceful shutdown...")
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/subprocess.py", line 1154, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+  File "/usr/lib/python3.10/subprocess.py", line 2021, in _communicate
+    ready = selector.select(timeout)
+  File "/usr/lib/python3.10/selectors.py", line 416, in select
+    fd_event_list = self._selector.poll(timeout)
+KeyboardInterrupt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/sbeale/CNN_HELP_ME/CNN_SRSLY/CNN/ClimatExML/train.py", line 96, in <module>
+    main()
+  File "/home/sbeale/ocean_waves/lib/python3.10/site-packages/hydra/main.py", line 94, in decorated_main
+    _run_hydra(
+  File "/home/sbeale/ocean_waves/lib/python3.10/site-packages/hydra/_internal/utils.py", line 394, in _run_hydra
+    _run_app(
+  File "/home/sbeale/ocean_waves/lib/python3.10/site-packages/hydra/_internal/utils.py", line 457, in _run_app
+    run_and_report(
+  File "/home/sbeale/ocean_waves/lib/python3.10/site-packages/hydra/_internal/utils.py", line 220, in run_and_report
+    return func()
+  File "/home/sbeale/ocean_waves/lib/python3.10/site-packages/hydra/_internal/utils.py", line 458, in <lambda>
+    lambda: hydra.run(
+  File "/home/sbeale/ocean_waves/lib/python3.10/site-packages/hydra/_internal/hydra.py", line 119, in run
+    ret = run_job(
+  File "/home/sbeale/ocean_waves/lib/python3.10/site-packages/hydra/core/utils.py", line 186, in run_job
+    ret.return_value = task_function(task_cfg)
+  File "/home/sbeale/CNN_HELP_ME/CNN_SRSLY/CNN/ClimatExML/train.py", line 87, in main
+    trainer.fit(srmodel, datamodule=clim_data)
+  File "/home/sbeale/ocean_waves/lib/python3.10/site-packages/mlflow/utils/autologging_utils/safety.py", line 554, in safe_patch_function
+    patch_function(call_original, *args, **kwargs)
+  File "/home/sbeale/ocean_waves/lib/python3.10/site-packages/mlflow/utils/autologging_utils/safety.py", line 254, in patch_with_managed_run
+    result = patch_function(original, *args, **kwargs)
+  File "/home/sbeale/ocean_waves/lib/python3.10/site-packages/mlflow/pytorch/_lightning_autolog.py", line 411, in patched_fit
+    mlflow.pytorch.log_model(
+  File "/home/sbeale/ocean_waves/lib/python3.10/site-packages/mlflow/pytorch/__init__.py", line 312, in log_model
+    return Model.log(
+  File "/home/sbeale/ocean_waves/lib/python3.10/site-packages/mlflow/models/model.py", line 562, in log
+    flavor.save_model(path=local_path, mlflow_model=mlflow_model, **kwargs)
+  File "/home/sbeale/ocean_waves/lib/python3.10/site-packages/mlflow/pytorch/__init__.py", line 591, in save_model
+    inferred_reqs = mlflow.models.infer_pip_requirements(
+  File "/home/sbeale/ocean_waves/lib/python3.10/site-packages/mlflow/utils/environment.py", line 391, in infer_pip_requirements
+    return _infer_requirements(model_uri, flavor)
+  File "/home/sbeale/ocean_waves/lib/python3.10/site-packages/mlflow/utils/requirements_utils.py", line 403, in _infer_requirements
+    modules = _capture_imported_modules(model_uri, flavor)
+  File "/home/sbeale/ocean_waves/lib/python3.10/site-packages/mlflow/utils/requirements_utils.py", line 305, in _capture_imported_modules
+    _run_command(
+  File "/home/sbeale/ocean_waves/lib/python3.10/site-packages/mlflow/utils/requirements_utils.py", line 201, in _run_command
+    stdout, stderr = proc.communicate()
+  File "/usr/lib/python3.10/subprocess.py", line 1165, in communicate
+    self._wait(timeout=sigint_timeout)
+  File "/usr/lib/python3.10/subprocess.py", line 1953, in _wait
+    time.sleep(delay)
+KeyboardInterrupt

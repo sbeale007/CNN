@@ -96,7 +96,7 @@ class Generator(nn.Module):
         channels,
         n_predictands=1,
         num_res_blocks=15,
-        num_upsample=2,
+        num_upsample=1,
     ):
         super(Generator, self).__init__()
 

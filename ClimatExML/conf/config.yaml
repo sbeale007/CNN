@@ -25,26 +25,32 @@ training:
 
 data:
   lr_shape:
-    - 2 # n_covariates
-    - 32 # x size
-    - 32 # y size 
+    - 1 # n_covariates
+    - 64 # x size
+    - 64 # y size 
   hr_shape:
     - 1 # n_predictands
     - 128 # x size
     - 128 # y size
   files:
     lr_test:
-      - /home/sbeale/95_14_small_w_greenland_hs/test/uas/lr/*.pt
-      - /home/sbeale/95_14_small_w_greenland_hs/test/vas/lr/*.pt
+      - /home/sbeale/95_14_glob_w_hawaii_hs/test/uas/lr/*.pt
+      - /home/sbeale/95_14_glob_w_hawaii_hs/test/vas/lr/*.pt
+      - /home/sbeale/95_14_glob_w_hawaii_hs/test/uas/lr_prev/*.pt
+      - /home/sbeale/95_14_glob_w_hawaii_hs/test/vas/lr_prev/*.pt
     lr_train:
-      - /home/sbeale/95_14_small_w_greenland_hs/train/uas/lr/*.pt
-      - /home/sbeale/95_14_small_w_greenland_hs/train/vas/lr/*.pt
+      - /home/sbeale/95_14_glob_w_hawaii_hs/train/uas/lr/*.pt
+      - /home/sbeale/95_14_glob_w_hawaii_hs/train/vas/lr/*.pt
+      - /home/sbeale/95_14_glob_w_hawaii_hs/train/uas/lr_prev/*.pt
+      - /home/sbeale/95_14_glob_w_hawaii_hs/train/vas/lr_prev/*.pt
     lr_validation:
-      - /home/sbeale/95_14_small_w_greenland_hs/validation/uas/lr/*.pt
-      - /home/sbeale/95_14_small_w_greenland_hs/validation/vas/lr/*.pt
+      - /home/sbeale/95_14_glob_w_hawaii_hs/validation/uas/lr/*.pt
+      - /home/sbeale/95_14_glob_w_hawaii_hs/validation/vas/lr/*.pt
+      - /home/sbeale/95_14_glob_w_hawaii_hs/validation/uas/lr_prev/*.pt
+      - /home/sbeale/95_14_glob_w_hawaii_hs/validation/vas/lr_prev/*.pt
     hr_test:
-      - /home/sbeale/95_14_small_w_greenland_hs/test/hs/hr/*.pt
+      - /home/sbeale/95_14_glob_w_hawaii_hs/test/hs/hr/*.pt
     hr_train:
-      - /home/sbeale/95_14_small_w_greenland_hs/train/hs/hr/*.pt
+      - /home/sbeale/95_14_glob_w_hawaii_hs/train/hs/hr/*.pt
     hr_validation:
-      - /home/sbeale/95_14_small_w_greenland_hs/validation/hs/hr/*.pt
+      - /home/sbeale/95_14_glob_w_hawaii_hs/validation/hs/hr/*.pt
