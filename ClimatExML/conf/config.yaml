@@ -1,5 +1,5 @@
 hyperparameters:
-  batch_size: 29
+  batch_size: 9
   # Adam Optimizer
   learning_rate: 0.00025
   b1: 0.9
@@ -26,8 +26,8 @@ training:
 data:
   lr_shape:
     - 2 # n_covariates
-    - 32 # x size
-    - 32 # y size
+    - 64 # x size
+    - 64 # y size
   lr_large_shape: 
     - 2 # n_covariates
     - 64 
@@ -38,14 +38,14 @@ data:
     - 128 # y size
   files:
     lr_test:
-      - /home/sbeale/95_14_small_in_small_out_hawaii/test/uas/lr_2day/*.pt
-      - /home/sbeale/95_14_small_in_small_out_hawaii/test/vas/lr_2day/*.pt
+      - /home/sbeale/mid_hawaii/test/uas/lr2day/*.pt
+      - /home/sbeale/mid_hawaii/test/vas/lr2day/*.pt
     lr_train:
-      - /home/sbeale/95_14_small_in_small_out_hawaii/train/uas/lr_2day/*.pt
-      - /home/sbeale/95_14_small_in_small_out_hawaii/train/vas/lr_2day/*.pt
+      - /home/sbeale/mid_hawaii/train/uas/lr2day/*.pt
+      - /home/sbeale/mid_hawaii/train/vas/lr2day/*.pt
     lr_validation:
-      - /home/sbeale/95_14_small_in_small_out_hawaii/validation/uas/lr_2day/*.pt
-      - /home/sbeale/95_14_small_in_small_out_hawaii/validation/vas/lr_2day/*.pt
+      - /home/sbeale/mid_hawaii/validation/uas/lr2day/*.pt
+      - /home/sbeale/mid_hawaii/validation/vas/lr2day/*.pt
     lr_large_test:
       - /home/sbeale/95_14_glob_w_hawaii_hs/test/uas/lr_2day_prev/*.pt
       - /home/sbeale/95_14_glob_w_hawaii_hs/test/vas/lr_2day_prev/*.pt
@@ -56,8 +56,8 @@ data:
       - /home/sbeale/95_14_glob_w_hawaii_hs/validation/uas/lr_2day_prev/*.pt
       - /home/sbeale/95_14_glob_w_hawaii_hs/validation/vas/lr_2day_prev/*.pt
     hr_test:
-      - /home/sbeale/95_14_small_in_small_out_hawaii/test/hs/hr_2day/*.pt
+      - /home/sbeale/95_14_glob_w_hawaii_hs/test/hs/hr2day/*.pt
     hr_train:
-      - /home/sbeale/95_14_small_in_small_out_hawaii/train/hs/hr_2day/*.pt
+      - /home/sbeale/95_14_glob_w_hawaii_hs/train/hs/hr2day/*.pt
     hr_validation:
-      - /home/sbeale/95_14_small_in_small_out_hawaii/validation/hs/hr_2day/*.pt
+      - /home/sbeale/95_14_glob_w_hawaii_hs/validation/hs/hr2day/*.pt
