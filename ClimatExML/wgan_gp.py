@@ -260,19 +260,19 @@ class SuperResolutionWGANGP(pl.LightningModule):
         return opt_g
     
     def forward(self, x):
-        # if (x.shape[0]==5):     
-        #     x = torch.split(x, [1,4], dim=0)
-        #     lr = x[0]
-        #     lr_large = x[1]
-        #     lr_large = lr_large.reshape((1,2,64,64))
-        #     y = self.G(lr, lr_large)
-        # else:
-        #     x = torch.split(x, [1,1], dim=0)
-        #     lr = x[0]
-        #     lr_large = x[1]
-        #     # lr_large = lr_large.reshape((1,2,64,64))
-        #     y = self.G(lr, lr_large)
-        y = self.G(x)
+        if (x.shape[0]==5):     
+            x = torch.split(x, [1,4], dim=0)
+            lr = x[0]
+            lr_large = x[1]
+            lr_large = lr_large.reshape((1,2,64,64))
+            y = self.G(lr, lr_large)
+        else:
+            x = torch.split(x, [1,1], dim=0)
+            lr = x[0]
+            lr_large = x[1]
+            # lr_large = lr_large.reshape((1,2,64,64))
+            y = self.G(lr, lr_large)
+        # y = self.G(x)
         return y
 
 

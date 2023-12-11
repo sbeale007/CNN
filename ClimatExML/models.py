@@ -209,7 +209,7 @@ class Generator_lr_global(nn.Module):
         channels_hr_cov=1,
         n_predictands=1,
         num_res_blocks=10,
-        num_upsample=1,
+        num_upsample=2,
     ):
         super(Generator_lr_global, self).__init__()
         self.fine_res = fine_dims

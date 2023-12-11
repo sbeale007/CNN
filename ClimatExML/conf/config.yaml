@@ -1,5 +1,5 @@
 hyperparameters:
-  batch_size: 9
+  batch_size: 27
   # Adam Optimizer
   learning_rate: 0.00025
   b1: 0.9
@@ -26,8 +26,8 @@ training:
 data:
   lr_shape:
     - 2 # n_covariates
-    - 64 # x size
-    - 64 # y size
+    - 32 # x size
+    - 32 # y size
   lr_large_shape: 
     - 2 # n_covariates
     - 64 
@@ -38,26 +38,26 @@ data:
     - 128 # y size
   files:
     lr_test:
-      - /home/sbeale/mid_hawaii/test/uas/lr2day/*.pt
-      - /home/sbeale/mid_hawaii/test/vas/lr2day/*.pt
+      - /home/sbeale/95_14_small_glob_w_greenland_hs/test/uas/lr_1day/lr/*.pt
+      - /home/sbeale/95_14_small_glob_w_greenland_hs/test/vas/lr_1day/lr/*.pt
     lr_train:
-      - /home/sbeale/mid_hawaii/train/uas/lr2day/*.pt
-      - /home/sbeale/mid_hawaii/train/vas/lr2day/*.pt
+      - /home/sbeale/95_14_small_glob_w_greenland_hs/train/uas/lr_1day/lr/*.pt
+      - /home/sbeale/95_14_small_glob_w_greenland_hs/train/vas/lr_1day/lr/*.pt
     lr_validation:
-      - /home/sbeale/mid_hawaii/validation/uas/lr2day/*.pt
-      - /home/sbeale/mid_hawaii/validation/vas/lr2day/*.pt
+      - /home/sbeale/95_14_small_glob_w_greenland_hs/validation/uas/lr_1day/lr/*.pt
+      - /home/sbeale/95_14_small_glob_w_greenland_hs/validation/vas/lr_1day/lr/*.pt
     lr_large_test:
-      - /home/sbeale/95_14_glob_w_hawaii_hs/test/uas/lr_2day_prev/*.pt
-      - /home/sbeale/95_14_glob_w_hawaii_hs/test/vas/lr_2day_prev/*.pt
+      - /home/sbeale/95_14_glob_w_greenland_hs/test/uas/lr_1dayprev/lr/*.pt
+      - /home/sbeale/95_14_glob_w_greenland_hs/test/vas/lr_1dayprev/lr/*.pt
     lr_large_train:
-      - /home/sbeale/95_14_glob_w_hawaii_hs/train/uas/lr_2day_prev/*.pt
-      - /home/sbeale/95_14_glob_w_hawaii_hs/train/vas/lr_2day_prev/*.pt
+      - /home/sbeale/95_14_glob_w_greenland_hs/train/uas/lr_1dayprev/lr/*.pt
+      - /home/sbeale/95_14_glob_w_greenland_hs/train/vas/lr_1dayprev/lr/*.pt
     lr_large_validation:
-      - /home/sbeale/95_14_glob_w_hawaii_hs/validation/uas/lr_2day_prev/*.pt
-      - /home/sbeale/95_14_glob_w_hawaii_hs/validation/vas/lr_2day_prev/*.pt
+      - /home/sbeale/95_14_glob_w_greenland_hs/validation/uas/lr_1dayprev/lr/*.pt
+      - /home/sbeale/95_14_glob_w_greenland_hs/validation/vas/lr_1dayprev/lr/*.pt
     hr_test:
-      - /home/sbeale/95_14_glob_w_hawaii_hs/test/hs/hr2day/*.pt
+      - /home/sbeale/95_14_glob_w_greenland_hs/test/hs/hr_1day/hr/*.pt
     hr_train:
-      - /home/sbeale/95_14_glob_w_hawaii_hs/train/hs/hr2day/*.pt
+      - /home/sbeale/95_14_glob_w_greenland_hs/train/hs/hr_1day/hr/*.pt
     hr_validation:
-      - /home/sbeale/95_14_glob_w_hawaii_hs/validation/hs/hr2day/*.pt
+      - /home/sbeale/95_14_glob_w_greenland_hs/validation/hs/hr_1day/hr/*.pt
