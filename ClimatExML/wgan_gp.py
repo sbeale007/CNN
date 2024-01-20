@@ -266,6 +266,12 @@ class SuperResolutionWGANGP(pl.LightningModule):
             lr_large = x[1]
             lr_large = lr_large.reshape((1,2,64,64))
             y = self.G(lr, lr_large)
+        elif (x.shape[0]==9):     
+            x = torch.split(x, [1,8], dim=0)
+            lr = x[0]
+            lr_large = x[1]
+            lr_large = lr_large.reshape((1,4,64,64))
+            y = self.G(lr, lr_large)
         else:
             x = torch.split(x, [1,1], dim=0)
             lr = x[0]

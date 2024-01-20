@@ -213,9 +213,9 @@ class Generator_lr_global(nn.Module):
     ):
         super(Generator_lr_global, self).__init__()
         self.fine_res = fine_dims
-
+        
         # First layer
-        self.conv1 = nn.Conv2d(channels, filters, kernel_size=3, stride=1, padding=1)
+        self.conv1 = nn.Conv2d(2, filters, kernel_size=3, stride=1, padding=1)
         self.conv1f = nn.Conv2d(
             channels_hr_cov, filters, kernel_size=3, stride=1, padding=1
         )
