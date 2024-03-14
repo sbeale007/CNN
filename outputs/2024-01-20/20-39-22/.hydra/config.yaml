@@ -1,0 +1,58 @@
+hyperparameters:
+  batch_size: 32
+  learning_rate: 0.00025
+  b1: 0.9
+  b2: 0.999
+  gp_lambda: 10
+  alpha: 50.0
+  n_critic: 5
+  max_epochs: 50
+tracking:
+  tracking_uri: sqlite:////home/sbeale/climate_ml_artifacts/climatexdb.sqlite
+  default_artifact_root: /home/sbeale/climate_ml_artifacts
+  experiment_name: Ocean-Waves
+  run_name: CNN
+  description: Initial setup with 3060 and pytorch lightning. Same config as Annau2023.
+  log_every_n_steps: 100
+training:
+  num_workers: 20
+  precision: '32'
+  accelerator: gpu
+data:
+  lr_shape:
+  - 2
+  - 32
+  - 32
+  lr_large_shape:
+  - 2
+  - 64
+  - 64
+  hr_shape:
+  - 1
+  - 128
+  - 128
+  files:
+    lr_test:
+    - /home/sbeale/greenland_data/testing_val_test_diff/test/uas/lr_1day/*.pt
+    - /home/sbeale/greenland_data/testing_val_test_diff/test/vas/lr_1day/*.pt
+    lr_train:
+    - /home/sbeale/greenland_data/testing_val_test_diff/train/uas/lr_1day/*.pt
+    - /home/sbeale/greenland_data/testing_val_test_diff/train/vas/lr_1day/*.pt
+    lr_validation:
+    - /home/sbeale/greenland_data/testing_val_test_diff/validation/uas/lr_1day/*.pt
+    - /home/sbeale/greenland_data/testing_val_test_diff/validation/vas/lr_1day/*.pt
+    lr_large_test:
+    - /home/sbeale/greenland_data/testing_val_test_diff/test/uas/lr_1day_prev/*.pt
+    - /home/sbeale/greenland_data/testing_val_test_diff/test/vas/lr_1day_prev/*.pt
+    lr_large_train:
+    - /home/sbeale/greenland_data/testing_val_test_diff/train/uas/lr_1day_prev/*.pt
+    - /home/sbeale/greenland_data/testing_val_test_diff/train/vas/lr_1day_prev/*.pt
+    lr_large_validation:
+    - /home/sbeale/greenland_data/testing_val_test_diff/validation/uas/lr_1day_prev/*.pt
+    - /home/sbeale/greenland_data/testing_val_test_diff/validation/vas/lr_1day_prev/*.pt
+    hr_test:
+    - /home/sbeale/greenland_data/testing_val_test_diff/test/hs/hr_1day/*.pt
+    hr_train:
+    - /home/sbeale/greenland_data/testing_val_test_diff/train/hs/hr_1day/*.pt
+    hr_validation:
+    - /home/sbeale/greenland_data/testing_val_test_diff/validation/hs/hr_1day/*.pt

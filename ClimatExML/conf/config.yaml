@@ -38,32 +38,32 @@ data:
     - 128 # y size
   files:
     lr_test:
-      - /home/sbeale/hawaii_data/95_14_small_wind_hs/test/uas/lr_5day/*.pt
-      - /home/sbeale/hawaii_data/95_14_small_wind_hs/test/vas/lr_5day/*.pt
+      - /home/sbeale/southern_ocean_data/95_14_small_mid_wind_hs_test9702/test/uas/lr_5day/*.pt
+      - /home/sbeale/southern_ocean_data/95_14_small_mid_wind_hs_test9702/test/vas/lr_5day/*.pt
     lr_train:
-      - /home/sbeale/hawaii_data/95_14_small_wind_hs/train/uas/lr_5day/*.pt
-      - /home/sbeale/hawaii_data/95_14_small_wind_hs/train/vas/lr_5day/*.pt
+      - /home/sbeale/southern_ocean_data/95_14_small_mid_wind_hs_test9702/train/uas/lr_5day/*.pt
+      - /home/sbeale/southern_ocean_data/95_14_small_mid_wind_hs_test9702/train/vas/lr_5day/*.pt
     lr_validation:
-      - /home/sbeale/hawaii_data/95_14_small_wind_hs/validation/uas/lr_5day/*.pt
-      - /home/sbeale/hawaii_data/95_14_small_wind_hs/validation/vas/lr_5day/*.pt
+      - /home/sbeale/southern_ocean_data/95_14_small_mid_wind_hs_test9702/validation/uas/lr_5day/*.pt
+      - /home/sbeale/southern_ocean_data/95_14_small_mid_wind_hs_test9702/validation/vas/lr_5day/*.pt
     lr_large_test:
-      - /home/sbeale/hawaii_data/95_14_mid_wind/test/uas/lr_mid_1day_prev_5day/*.pt
-      - /home/sbeale/hawaii_data/95_14_mid_wind/test/vas/lr_mid_1day_prev_5day/*.pt
+      - /home/sbeale/southern_ocean_data/95_14_small_mid_wind_hs_test9702/test/uas/lr_mid_1day_prev_5day/*.pt
+      - /home/sbeale/southern_ocean_data/95_14_small_mid_wind_hs_test9702/test/vas/lr_mid_1day_prev_5day/*.pt
       - /home/sbeale/hawaii_data/95_14_global_wind/test/uas/lr_5day_prev/*.pt
       - /home/sbeale/hawaii_data/95_14_global_wind/test/vas/lr_5day_prev/*.pt
     lr_large_train:
-      - /home/sbeale/hawaii_data/95_14_mid_wind/train/uas/lr_mid_1day_prev_5day/*.pt
-      - /home/sbeale/hawaii_data/95_14_mid_wind/train/vas/lr_mid_1day_prev_5day/*.pt
+      - /home/sbeale/southern_ocean_data/95_14_small_mid_wind_hs_test9702/train/uas/lr_mid_1day_prev_5day/*.pt
+      - /home/sbeale/southern_ocean_data/95_14_small_mid_wind_hs_test9702/train/vas/lr_mid_1day_prev_5day/*.pt
       - /home/sbeale/hawaii_data/95_14_global_wind/train/uas/lr_5day_prev/*.pt
       - /home/sbeale/hawaii_data/95_14_global_wind/train/vas/lr_5day_prev/*.pt
     lr_large_validation:
-      - /home/sbeale/hawaii_data/95_14_mid_wind/validation/uas/lr_mid_1day_prev_5day/*.pt
-      - /home/sbeale/hawaii_data/95_14_mid_wind/validation/vas/lr_mid_1day_prev_5day/*.pt
+      - /home/sbeale/southern_ocean_data/95_14_small_mid_wind_hs_test9702/validation/uas/lr_mid_1day_prev_5day/*.pt
+      - /home/sbeale/southern_ocean_data/95_14_small_mid_wind_hs_test9702/validation/vas/lr_mid_1day_prev_5day/*.pt
       - /home/sbeale/hawaii_data/95_14_global_wind/validation/uas/lr_5day_prev/*.pt
       - /home/sbeale/hawaii_data/95_14_global_wind/validation/vas/lr_5day_prev/*.pt
     hr_test:
-      - /home/sbeale/hawaii_data/95_14_small_wind_hs/test/hs/hr_5day/*.pt
+      - /home/sbeale/southern_ocean_data/95_14_small_mid_wind_hs_test9702/test/hs/hr_5day/*.pt
     hr_train:
-      - /home/sbeale/hawaii_data/95_14_small_wind_hs/train/hs/hr_5day/*.pt
+      - /home/sbeale/southern_ocean_data/95_14_small_mid_wind_hs_test9702/train/hs/hr_5day/*.pt
     hr_validation:
-      - /home/sbeale/hawaii_data/95_14_small_wind_hs/validation/hs/hr_5day/*.pt
+      - /home/sbeale/southern_ocean_data/95_14_small_mid_wind_hs_test9702/validation/hs/hr_5day/*.pt
