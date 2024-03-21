@@ -7,7 +7,7 @@ hyperparameters:
   gp_lambda: 10
   alpha: 50.0
   n_critic: 5
-  max_epochs: 50
+  max_epochs: 1
 
 # mlflow server --backend-store-uri sqlite:///climatexdb.sqlite --default-artifact-root /home/sbeale/climate_ml_artifacts --port 8080
 tracking:
